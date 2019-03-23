@@ -1,0 +1,27 @@
+{
+    "name": "classic-o/nova-media-library",
+    "description": "Tool and field that will let you managing images and add them to the posts as single image or gallery",
+    "version": "0.1.0",
+    "keywords": ["laravel", "nova", "media", "gallery"],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClassicO\\NovaMediaLibrary\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ClassicO\\NovaMediaLibrary\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
