@@ -1,0 +1,6 @@
+/composer.lock
+/vendor
+/.php_cs.cache
+/node_modules
+.idea
+auth.json
