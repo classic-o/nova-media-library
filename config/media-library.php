@@ -2,51 +2,107 @@
 
 return [
 
-	/*
-	|----------------------------------------------------------------------------------------------------
-	| Url
-	|----------------------------------------------------------------------------------------------------
-	| Will use to return base url of app.
-	*/
+	/**
+	 * Here you may specify the default filesystem disk.
+	 * Available `public` or `s3`.
+	 *
+	 * @var string
+	 * @since 0.2.0
+	 */
 
-	'url'       => env('APP_URL', '') . '/storage',
+	'disk'     => 's3' == env('FILESYSTEM_DRIVER') ? 's3' : 'public',
 
-	/*
-	|----------------------------------------------------------------------------------------------------
-	| Folder
-	|----------------------------------------------------------------------------------------------------
-	| Will use to put file uploads in `/storage/app/public`.
-	*/
+	/**
+	 * Will use to return base url of media file.
+	 *
+	 * @var string
+	 * @since 0.2.0
+	 */
 
-	'folder'    => '/media/',
+	'url'       => 's3' == env('FILESYSTEM_DRIVER') ? env('AWS_URL', '') : env('APP_URL', '') . '/storage',
 
-	/*
-	|----------------------------------------------------------------------------------------------------
-	| Split
-	|----------------------------------------------------------------------------------------------------
-	| Organize my uploads into year-month based folders.
-	| Will use to put file uploads in `/storage/app/public/{folder}/YYYY-MM/`
-	*/
+	/**
+	 * Save all files in a separate folder.
+	 *
+	 * @example `media-library`
+	 *
+	 * @var string
+	 * @since 0.1.0
+	 */
 
-	'split'     => true,
+	'folder'    => '',
 
-	/*
-	|----------------------------------------------------------------------------------------------------
-	| Type
-	|----------------------------------------------------------------------------------------------------
-	| This option let you to filter your image by extensions.
-	*/
+	/**
+	 * Organize uploads into date based folders.
+	 * Available date characters: `Y`, `m`, `d` and symbols: `-`, `_`, `/`
+	 *
+	 * @example Y-m
+	 * @example Y/m
+	 * @example Y/m-d
+	 *
+	 * @var string|null
+	 * @since 0.2.0
+	 */
 
-	'type'      => ['jpg', 'jpeg', 'png', 'gif', 'svg'],
+	'by_date'   => null,
 
-	/*
-	|----------------------------------------------------------------------------------------------------
-	| Step
-	|----------------------------------------------------------------------------------------------------
-	| The number of files that will be returned with each step.
-	| (The tool loads images from a folder not all at once).
-	*/
+	/**
+	 * This option allow you to filter your files by types and extensions.
+	 * Format: Label => ['array of extensions'].
+	 *
+	 * @example ['*'] - allow you to save any file extensions to the specified type.
+	 *
+	 * @var array
+	 * @since 0.2.0
+	 */
 
-	'step'      => 40,
+	'types'     => [
+		'Image'     => [ 'jpg', 'jpeg', 'png', 'gif', 'svg' ],
+		'Docs'      => [ 'doc', 'xls', 'docx', 'xlsx' ],
+		'Audio'     => [ 'mp3' ],
+		'Video'     => [ 'mp4' ],
+		#'Other'     => [ '*' ],
+	],
+
+	/**
+	 * Maximum size of file uploads in bytes for each types.
+	 * Add `Label` => `max_size` in bytes for needed types to enable limitation for some types.
+	 * If you want to disable the limitation - leave empty array
+	 *
+	 * @var array
+	 * @since 0.2.0
+	 */
+
+	'max_size'  => [
+		'Image'     => 2097152,
+		'Docs'      => 5242880,
+	],
+
+	/**
+	 * Allow you to resize images by width\height. Using http://image.intervention.io library
+	 * Width and height can be integer or null. If one of them is null - will resize image proportionally
+	 * Supports image formats: http://image.intervention.io/getting_started/formats
+	 *
+	 * @var array
+	 * @since 0.2.0
+	 */
+
+	'resize'    => [
+		'image'     => 'Image',     # Label from types (Set `null` to disable resizing)
+		'width'     => 1200,        # Maximum width in pixels
+		'height'    => null,        # Maximum height in pixels
+		'driver'    => 'gd',        # `gd` or `imagick` http://image.intervention.io/getting_started/configuration
+		'quality'   => 80           # 0 - 100
+	],
+
+	/**
+	 * The number of files that will be returned with each step.
+	 * The tool loads files from a folder not all at once.
+	 *
+	 * @var integer
+	 * @since 0.1.0
+	 */
+
+	'step'      => 40
 
 ];

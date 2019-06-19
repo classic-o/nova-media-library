@@ -21,7 +21,7 @@ class NovaMediaLibrary extends Tool
 	    Nova::style('media-field', __DIR__.'/../dist/css/field.css');
 
 
-	    Nova::provideToScript([ 'nml_type' => (new NML_Controller)->types ]);
+	    Nova::provideToScript( Core\Helper::frontConfig() );
     }
 
     /**

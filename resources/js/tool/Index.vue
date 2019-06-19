@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Library from '../Index/Index.vue'
+import Library from '../module/Index/'
 export default {
   components: { Library }
 }

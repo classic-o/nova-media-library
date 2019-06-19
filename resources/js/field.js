@@ -1,5 +1,5 @@
 Nova.booting((Vue) => {
-    Vue.component('index-media-field', require('./field/IndexField'))
-    Vue.component('detail-media-field', require('./field/DetailField'))
-    Vue.component('form-media-field', require('./field/FormField'))
-})
+    Vue.component('index-nml-field', require('./field/Index/'));
+    Vue.component('detail-nml-field', require('./field/Detail/'));
+    Vue.component('form-nml-field', require('./field/Form/'));
+});

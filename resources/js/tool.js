@@ -1,9 +1,13 @@
-Nova.booting((Vue, router) => {
+Nova.booting((Vue, router, store) => {
     router.addRoutes([
         {
-            name: 'nova-media-library',
+            name: 'media-library',
             path: '/media-library',
-            component: require('./tool/Index'),
+            component: require('./tool/'),
         },
     ])
-})
+});
+
+if ( 'object' === typeof Nova.config.nml_lang ) {
+    Object.assign(Nova.config.translations, Nova.config.nml_lang)
+}

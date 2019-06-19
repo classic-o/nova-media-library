@@ -2,11 +2,9 @@
 
 namespace ClassicO\NovaMediaLibrary;
 
-use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use ClassicO\NovaMediaLibrary\Http\Middleware\Authorize;
+use ClassicO\NovaMediaLibrary\Core\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -17,16 +15,18 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+	    $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova-media-library');
+	    $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-media-library');
+
 	    $this->publishes([
 		    __DIR__.'/../config/' => config_path(),
-		    __DIR__.'/../database/migrations/' => base_path('/database/migrations')
+		    __DIR__.'/../database/migrations/' => base_path('/database/migrations'),
+		    __DIR__.'/../resources/lang' => resource_path('lang/vendor/nova-media-library'),
 	    ], 'config-nml');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova-media-library');
-
-        $this->app->booted(function () {
-            $this->routes();
-        });
+	    $this->app->booted(function () {
+		    $this->routes();
+	    });
     }
 
     /**
@@ -43,16 +43,6 @@ class ToolServiceProvider extends ServiceProvider
         Route::middleware(['nova', Authorize::class])
                 ->prefix('nova-vendor/nova-media-library')
                 ->group(__DIR__.'/../routes/api.php');
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 
 }
