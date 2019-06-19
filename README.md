@@ -4,7 +4,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 
 ##### Table of Contents
 * [Features](#features)
-* [Migration from 0.1 to 0.2](#migration)
+* [Migration from 0.1 to 0.2](#migration-from-01-to-02)
 * [Requirements](#requirements)
 * [Install](#install)
 * [Configuration](#configuration)
