@@ -18,6 +18,8 @@ Rewritten backend. Added new features.
 - Image resizing
 - Support integrate media field with the Trix editor
 - Support custom callback for the media field
+### Removed 
+- gallery() method in the field
 
 ## [0.1.2] - 2019-04-18
 ### Added
