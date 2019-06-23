@@ -79,6 +79,16 @@ return [
 	],
 
 	/**
+	 * The number of files that will be returned with each step.
+	 * The tool loads files from a folder not all at once.
+	 *
+	 * @var integer
+	 * @since 0.1.0
+	 */
+
+	'step'      => 40,
+
+	/**
 	 * Allow you to resize images by width\height. Using http://image.intervention.io library
 	 * Width and height can be integer or null. If one of them is null - will resize image proportionally
 	 * Supports image formats: http://image.intervention.io/getting_started/formats
@@ -88,21 +98,19 @@ return [
 	 */
 
 	'resize'    => [
+
 		'image'     => 'Image',     # Label from types (Set `null` to disable resizing)
+
 		'width'     => 1200,        # Maximum width in pixels
+
 		'height'    => null,        # Maximum height in pixels
+
 		'driver'    => 'gd',        # `gd` or `imagick` http://image.intervention.io/getting_started/configuration
-		'quality'   => 80           # 0 - 100
-	],
 
-	/**
-	 * The number of files that will be returned with each step.
-	 * The tool loads files from a folder not all at once.
-	 *
-	 * @var integer
-	 * @since 0.1.0
-	 */
+		'quality'   => 80,          # 0 - 100
 
-	'step'      => 40
+		'crop'      => true,        # Cropping image on the frontend
+
+	]
 
 ];

@@ -80,13 +80,13 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 	 * Update description
 	 *
 	 * @param int $id
-	 * @param string $description
+	 * @param array $update
 	 */
-	function updateData($id, $description = '')
+	function updateData($id, $update = [])
 	{
 		$this->where('id', $id)
 			->first()
-			->update([ 'description' => $description ]);
+			->update($update);
 	}
 
 }

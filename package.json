@@ -19,8 +19,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "cropperjs": "^1.5.1",
+        "v-copy": "^0.1.0",
         "vue": "^2.6.10",
-        "vuedraggable": "^2.21.0",
-        "v-copy": "^0.1.0"
+        "vuedraggable": "^2.21.0"
     }
 }

@@ -25,7 +25,7 @@ export default {
     }
   },
 
-  created() {
+  mounted() {
     document.body.classList.add('overflow-hidden');
   },
   beforeDestroy() {

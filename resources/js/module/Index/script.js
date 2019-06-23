@@ -2,7 +2,8 @@ import nmlAction from './parts/action.vue'
 import nmlSearch from './parts/search.vue'
 import nmlItems from './parts/items.vue'
 import nmlLoader from './parts/loader.vue'
-import Popup from '../IndexPopup/index.vue'
+import Popup from '../Popup/index.vue'
+import Crop from '../Crop/index.vue'
 
 let timeout = null;
 let wheel = null;
@@ -19,7 +20,8 @@ export default {
     nmlSearch,
     nmlItems,
     nmlLoader,
-    Popup
+    Popup,
+    Crop
   },
   data() {
     return {
@@ -42,6 +44,7 @@ export default {
       oldFilter: {},
       loading: false,
       popup: null,
+      popupType: null
     }
   },
   methods: {

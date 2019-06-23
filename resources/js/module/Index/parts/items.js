@@ -24,6 +24,7 @@ export default {
           return;
         }
         this.$parent.popup = item;
+        this.$parent.popupType = 'info';
       }
     }
   }

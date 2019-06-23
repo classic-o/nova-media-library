@@ -11,7 +11,11 @@
     <nmlLoader />
 
     <transition name="fade">
-      <Popup v-if="popup" />
+      <Popup v-if="popup && 'info' === popupType" />
+    </transition>
+
+    <transition name="fade">
+      <Crop v-if="popup && 'crop' === popupType" />
     </transition>
 
   </div>

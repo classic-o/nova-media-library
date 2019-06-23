@@ -94,7 +94,27 @@ class Controller {
 		]);
 		if ( $valid->fails() ) abort(422, __('nova-media-library::messages.id_desc_incorrect'));
 
-		$this->model->updateData(request('id'), request('description'));
+		$this->model->updateData(request('id'), [ 'description' => request('description') ]);
 		return [ 'message' => __('nova-media-library::messages.successfully_updated') ];
+	}
+
+
+	/** Crop image from frontend */
+	function crop()
+	{
+		$crop = new Crop(request()->toArray());
+		if ( !$crop->form )
+			abort(422, __('nova-media-library::messages.crop_disabled'));
+
+		if ( !$crop->check() )
+			abort(422, __('nova-media-library::messages.invalid_request'));
+
+		$crop->make();
+
+		$crop->setSize();
+
+		if ( $crop->save() ) return;
+
+		abort(422, __('nova-media-library::messages.not_uploaded'));
 	}
 }

@@ -43,9 +43,17 @@
       </div>
 
       <div class="flex mt-6">
-        <button type="button" class="btn-default btn-primary cursor-pointer mr-6 shadow-md" @click="update">
+        <button type="button" class="btn-default btn-primary cursor-pointer mr-6 shadow-md"
+                @click="update">
           {{ __("nml_update") }}
         </button>
+
+        <button type="button" class="btn-default bg-success text-white cursor-pointer mr-6 shadow-md"
+                @click="$parent.popupType = 'crop'"
+                v-if="$parent.config.nml_crop && 'image' === $parent.popup.mime">
+          {{ __("nml_edit_image") }}
+        </button>
+
         <button type="button" class="btn-default btn-danger cursor-pointer ml-auto shadow-md"
                 @click="$parent.deleteFiles([$parent.popup.id])">
           {{ __("nml_delete") }}

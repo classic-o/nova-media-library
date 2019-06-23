@@ -33,6 +33,7 @@ class Helper {
 			return [
 				'nml_types' => $labels,
 				'nml_accept' => preg_filter('/^/', '.', $types),
+				'nml_crop' => config('media-library.resize.crop'),
 				'nml_lang' => self::getLang()
 			];
 		}
