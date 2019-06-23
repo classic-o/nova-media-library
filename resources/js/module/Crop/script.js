@@ -39,7 +39,7 @@ export default {
       autoCrop: false,
       checkCrossOrigin: false,
       guides: false,
-      toggleDragModeOnDblclick: false,
+      //toggleDragModeOnDblclick: false,
       viewMode: 1,
       //zoomable: false,
       crop(e) {
