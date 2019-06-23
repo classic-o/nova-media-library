@@ -21,7 +21,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 - [x] Use field as list
 - [x] Integrate Media Field with Trix editor
 - [x] Implement a custom callback with the field
-- [ ] Integrated cropping image on the frontend
+- [x] Cropping image on the frontend
 
 ### Migration from 0.1 to 0.2
 
@@ -66,9 +66,6 @@ return [
     # Organize uploads into date based folders.
     'by_date' => null,
 	
-    # The number of files that will be returned with each step.
-    'step' => 40,
-	
     # This option allow you to filter your files by types and extensions.
     'types' => [
         'Image' => [ 'jpg', 'jpeg', 'png', 'gif', 'svg' ],
@@ -84,13 +81,17 @@ return [
         'Docs'  => 5242880,
     ],
     
+    # The number of files that will be returned with each step.
+    'step' => 40,
+    
     # Allow you to resize images by width\height. Using http://image.intervention.io library
     'resize' => [
         'image'   => 'Image',
         'width'   => 1200,
         'height'  => null,
         'driver'  => 'gd',
-        'quality' => 80
+        'quality' => 80,
+        'crop'    => true,  
     ]
 
 ];
