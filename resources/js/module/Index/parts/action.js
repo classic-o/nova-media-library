@@ -41,7 +41,7 @@ export default {
         }
       }).catch(e => {
         this.uploadFile(i+1);
-        this.$toasted.show(e.response.data.message || this.__('nml_unknown_error'), { type: 'error' });
+        //this.$toasted.show(e.response.data.message || this.__('nml_unknown_error'), { type: 'error' });
       });
     },
 

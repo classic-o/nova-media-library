@@ -105,7 +105,7 @@ export default {
         this.loading = false;
       }).catch(e => {
         this.loading = false;
-        this.$toasted.show(e.response.data.message, { type: 'error' });
+        //this.$toasted.show(e.response.data.message, { type: 'error' });
       });
     }
   },

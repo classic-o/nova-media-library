@@ -20,6 +20,7 @@ return [
 	'id'                        => 'ID',
 	'id_desc_incorrect'         => 'ID or Description is incorrect',
 	'invalid_request'           => 'Invalid request data',
+	'invalid_url_path'          => 'Invalid URL/Path of file',
 	'kb'                        => 'KB',
 	'load_more'                 => 'Load More',
 	'loading'                   => 'Loading...',

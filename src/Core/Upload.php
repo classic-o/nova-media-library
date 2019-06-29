@@ -24,7 +24,7 @@ class Upload {
 		$this->config = config('media-library');
 		$this->resize = $this->config['resize'];
 		$this->file = $file;
-		$this->mime = explode('/', $file->getClientMimeType())[0];
+		$this->mime = explode('/', $file->getMimeType())[0];
 		$this->extension = strtolower($file->getClientOriginalExtension());
 	}
 
@@ -99,7 +99,8 @@ class Upload {
 	private function byDefault()
 	{
 		$this->bytes = $this->file->getSize();
-		$this->file = $this->file->get();
+		$this->file = file_get_contents($this->file);
+		#$this->file = $this->file->get();
 	}
 
 	private function byResize()

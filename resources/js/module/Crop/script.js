@@ -23,7 +23,7 @@ export default {
         this.$parent.popup = null;
       }).catch(e => {
         this.$parent.loading = false;
-        this.$toasted.show(e.response.data.message || this.__('nml_unknown_error'), { type: 'error' });
+        //this.$toasted.show(e.response.data.message || this.__('nml_unknown_error'), { type: 'error' });
       });
       /*this.crop.getCroppedCanvas({}).toBlob(blob => {
         let name = 'temp.'+this.$parent.popup.path.split('.').reverse()[0];
