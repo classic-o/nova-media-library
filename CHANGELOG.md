@@ -1,5 +1,9 @@
 ## Changelog
 
+### [0.4.0] - 2019-06-29
+#### Added
+- Programmatically upload files by url or path
+
 ### [0.3.0] - 2019-06-23
 #### Added
 - Cropping image on the frontend

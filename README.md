@@ -10,6 +10,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 * [Configuration](#configuration)
 * [Usage](#usage)
 * [Customization](#customization)
+* [Upload by url](#upload-by-url)
 * [Localization](#localization)
 * [Screenshots](#screenshots)
 
@@ -19,6 +20,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 - [x] Use field as single image
 - [x] Use field as gallery
 - [x] Use field as list
+- [x] Upload files by url
 - [x] Integrate Media Field with Trix editor
 - [x] Implement a custom callback with the field
 - [x] Cropping image on the frontend
@@ -173,16 +175,28 @@ MediaField::make('With Callback', null)
 	        ->jsCallback('callback_name', [ 'name' => 'Nova' ]),
 ```
 
-Your JavaScript callback should have 2 parameters. The first will be an array of files, the second - the config.
+Your JavaScript callback should have 2 parameters. The first will be an array of files, second - your settings.
 ```javascript
-function callback_name(array, config) {
-  console.log(array, config);
+function callback_name(array, settings) {
+  console.log(array, settings);
 }
 ```
 
+### Upload by url
+
+Also you can programmatically add files to the media library by url or path.
+```php
+use \ClassicO\NovaMediaLibrary\API;
+API::upload('https://pay.google.com/about/static/images/social/og_image.jpg');
+```
+
+If an error occurred while loading, the function will return an error string.  
+If all is well - `true`  
+If you enabled resizing and the image was successfully loaded, but for some reason the script could not cut off the image - they will return `null`
+
 ### Localization
 
-To translate this tool, you need to add\change the language file `/resources/lang/vendor/nova-media-library/{lang}/messages.php` by adding phrases from `https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en/messages.php`
+To translate this tool, you need to add\change the language file `/resources/lang/vendor/nova-media-library/{lang}/messages.php` by adding phrases from [message.php](https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en/messages.php)
 
 ### Screenshots
 
