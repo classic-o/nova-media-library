@@ -23,6 +23,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 - [x] Upload files by url
 - [x] Integrate Media Field with Trix editor
 - [x] Implement a custom callback with the field
+- [x] Automatic resize image on the backend by width\height
 - [x] Cropping image on the frontend
 
 ### Migration from 0.1 to 0.2
@@ -151,7 +152,7 @@ MediaField::make('Gallery')
           ->isHidden()
 ```
 
-You can limit files by type (Labels of types from configuration file).
+You can limit the selection of files by type (Labels of types from configuration file).
 ```php
 MediaField::make('Image')
           ->withTypes(['Image', 'Video'])
@@ -187,7 +188,7 @@ function callback_name(array, settings) {
 Also you can programmatically add files to the media library by url or path.
 ```php
 use \ClassicO\NovaMediaLibrary\API;
-API::upload('https://pay.google.com/about/static/images/social/og_image.jpg');
+$result = API::upload('https://pay.google.com/about/static/images/social/og_image.jpg');
 ```
 
 If an error occurred while loading, the function will return an error string.  
@@ -196,7 +197,7 @@ If you enabled resizing and the image was successfully loaded, but for some reas
 
 ### Localization
 
-To translate this tool, you need to add\change the language file `/resources/lang/vendor/nova-media-library/{lang}/messages.php` by adding phrases from [message.php](https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en/messages.php)
+To translate this tool another language, you need to add the translation file `/resources/lang/vendor/nova-media-library/{lang}/messages.php` by adding phrases from [message.php](https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en/messages.php)
 
 ### Screenshots
 
