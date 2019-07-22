@@ -96,4 +96,75 @@ class Helper {
 		return false;
 	}
 
+
+    /**
+     * Get image uri for image size. Return null if image is not exists.
+     *
+     * @param mixed $image image (Model, id or path are accepted)
+     * @param null|string $size image size
+     * @param bool $empty return empty string if size is not exists or not
+     *
+     * @return string|null
+     */
+    static function getImageUri($image, $size = null, $empty = false) {
+	    if (! is_a($image, 'ClassicO\NovaMediaLibrary\Core\Model')) {
+	        $image = Model::where('id', $image)->orWhere('path', $image)->first();
+
+	        if (!$image) {
+	            return null;
+            }
+        }
+
+	    $folder = self::getFolder($image->path);
+
+	    if (!is_array(config('media-library.sizes')) || !in_array($size,array_keys(config('media-library.sizes')))) {
+            return self::storage()->url($folder);
+        }
+
+        $extension = pathinfo($folder, PATHINFO_EXTENSION);
+        $path = mb_substr($folder, 0, -(mb_strlen($extension)+1)) . "-$size.$extension";
+
+        if (self::storage()->exists($path)) {
+            return self::storage()->url($path);
+        } else {
+            return $empty ? '' : self::storage()->url($folder);
+        }
+    }
+
+    /**
+     * Get uri for all registered image sizes
+     *
+     * @param mixed $image image (Model, id or path are accepted)
+     * @param bool $empty return empty string if size is not exists or not
+     *
+     * @return array
+     */
+    static function getImageSizes($image, $empty = false) {
+	    $output = [];
+
+	    if(!is_array(config('media-library.sizes'))) {
+	        return $output;
+        }
+
+	    if (! is_a($image, 'ClassicO\NovaMediaLibrary\Core\Model')) {
+	        $image = Model::where('id', $image)->orWhere('path', $image)->first();
+
+	        if (!$image) {
+	            return $output;
+            }
+        }
+
+	    foreach (array_keys(config('media-library.sizes')) as $size) {
+	        $uri = self::getImageUri($image, $size, $empty);
+
+            $output[$size] = $uri;
+        }
+
+	    $folder = self::getFolder($image->path);
+
+        $output['original'] = self::storage()->url($folder);
+
+	    return $output;
+    }
+
 }

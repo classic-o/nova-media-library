@@ -2,6 +2,7 @@
 
 namespace ClassicO\NovaMediaLibrary\Core;
 
+use finfo;
 use Illuminate\Support\Str;
 
 class Upload {
@@ -19,6 +20,7 @@ class Upload {
 	private $bytes = 0;
 	private $extension;
 	private $resize;
+	private $sizes;
 
 	function __construct($file) {
 		$this->config = config('media-library');
@@ -26,6 +28,7 @@ class Upload {
 		$this->file = $file;
 		$this->mime = explode('/', $file->getMimeType())[0];
 		$this->extension = strtolower($file->getClientOriginalExtension());
+		$this->sizes = $this->config['sizes'] ?? null;
 	}
 
 	function setType()
@@ -80,7 +83,10 @@ class Upload {
 
 	function save()
 	{
-		if ( Helper::storage()->put(Helper::getFolder($this->path), $this->file) ) {
+	    if ( Helper::storage()->put(Helper::getFolder($this->path), $this->file) ) {
+
+	        $this->make_sizes();
+
 			$res = Model::create([
 				'description' => $this->description,
 				'path' => $this->path,
@@ -121,5 +127,47 @@ class Upload {
 			$this->byDefault();
 		}
 	}
+
+	private function make_sizes() {
+	    if (! empty($this->sizes) && class_exists('\Intervention\Image\ImageManager')) {
+            foreach ($this->sizes as $name => [
+                    'width' => $width,
+                    'height' => $height,
+                    'crop' => $crop
+            ]) {
+                if($name) {
+                    if((int) $width > 0 || (int) $height > 0){
+                        if ('image' == $this->mime) {
+                            $manager = new \Intervention\Image\ImageManager(['driver' => $this->resize['driver']]);
+                            $image = $manager->make($this->file);
+                            $start = $image->width();
+
+                            if ((int)$width > 0 && (int)$height > 0 && $crop) {
+                                $image->fit($width, $height, function ($constraint) {
+                                    $constraint->upsize();
+                                });
+                            } else {
+                                $image->resize($width, $height, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                    $constraint->upsize();
+                                });
+                            }
+
+                            if($start != $image->width()){
+                                $image = $image->stream(null, $this->resize['quality'])->__toString();
+                                $path = mb_substr($this->path, 0, -(mb_strlen($this->extension)+1)) . "-$name.{$this->extension}" ;
+                                logger('OBJ PATH ' . print_r($this->path,true));
+                                logger('OBJ EXT  ' . print_r($this->extension,true));
+                                logger('Computed ' . print_r($path,true));
+                                logger('===============================================================');
+
+                                Helper::storage()->put(Helper::getFolder($path), $image);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }

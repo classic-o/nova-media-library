@@ -98,19 +98,14 @@ return [
 	 */
 
 	'resize'    => [
-
 		'image'     => 'Image',     # Label from types (Set `null` to disable resizing)
-
 		'width'     => 1200,        # Maximum width in pixels
-
 		'height'    => null,        # Maximum height in pixels
-
 		'driver'    => 'gd',        # `gd` or `imagick` http://image.intervention.io/getting_started/configuration
-
 		'quality'   => 80,          # 0 - 100
-
 		'crop'      => true,        # Cropping image on the frontend
+	],
 
-	]
+    'sizes'    => [],
 
 ];

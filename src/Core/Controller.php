@@ -2,6 +2,7 @@
 
 namespace ClassicO\NovaMediaLibrary\Core;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class Controller {
@@ -76,10 +77,14 @@ class Controller {
 		if ( count($get) > 0 ) {
 			$array = [];
 			foreach ($get as $key) {
-				$array[] = Helper::getFolder($key->path);
+			    /** Grab all existed image sizes for deleting */
+			    $extension = pathinfo($key->path, PATHINFO_EXTENSION);
+                $path = mb_substr($key->path, 0, -(mb_strlen($extension)+1)) . "*.$extension";
+
+				$array = array_merge($array, File::glob(Helper::storage()->path(Helper::getFolder($path))));
 			}
 
-			Helper::storage()->delete($array);
+            File::delete($array);
 		}
 
 		return [ 'status' => !!$delete ];
