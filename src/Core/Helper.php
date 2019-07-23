@@ -106,7 +106,8 @@ class Helper {
      *
      * @return string|null
      */
-    static function getImageUri($image, $size = null, $empty = false) {
+    static function getImageUri($image, $size = null, $empty = false)
+    {
 	    if (! is_a($image, 'ClassicO\NovaMediaLibrary\Core\Model')) {
 	        $image = Model::where('id', $image)->orWhere('path', $image)->first();
 
@@ -139,7 +140,8 @@ class Helper {
      *
      * @return array
      */
-    static function getImageSizes($image, $empty = false) {
+    static function getImageSizes($image, $empty = false)
+    {
 	    $output = [];
 
 	    if(!is_array(config('media-library.sizes'))) {
