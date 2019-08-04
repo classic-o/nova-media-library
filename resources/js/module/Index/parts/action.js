@@ -36,12 +36,10 @@ export default {
         this.upload.done++;
         this.$toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
         this.uploadFile(i+1);
-        if ( r.data.message ) {
-          this.$toasted.show(r.data.message, { type: 'success' });
-        }
+        if ( r.data.message ) this.$toasted.show(r.data.message, { type: 'success' });
       }).catch(e => {
         this.uploadFile(i+1);
-        //this.$toasted.show(e.response.data.message || this.__('nml_unknown_error'), { type: 'error' });
+        if ( e.response.data.message ) this.$toasted.show(e.response.data.message, { type: 'error' });
       });
     },
 

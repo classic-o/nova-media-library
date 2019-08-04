@@ -39,20 +39,21 @@ class Controller {
 	function upload()
 	{
 		$file = request()->file('file');
-		if ( !$file ) abort(422, __('nova-media-library::messages.not_uploaded'));
+		$file_error = " ({$file->getClientOriginalName()})";
+		if ( !$file ) abort(422, __('nova-media-library::messages.not_uploaded') . $file_error);
 
 		$upload = new Upload($file);
 
 		$upload->setType();
 		if ( !$upload->type )
-			abort(422, __('nova-media-library::messages.forbidden_file_format'));
+			abort(422, __('nova-media-library::messages.forbidden_file_format') . $file_error);
 
 		$upload->setName($file->getClientOriginalName());
 
 		$upload->setFile();
 
 		if ( !$upload->checkSize() )
-			abort(422, __('nova-media-library::messages.size_limit_exceeded'));
+			abort(422, __('nova-media-library::messages.size_limit_exceeded') . $file_error);
 
 		if ( $upload->save() ) {
 			if ( $upload->noResize ) {
@@ -61,7 +62,7 @@ class Controller {
 			return;
 		}
 
-		abort(422, __('nova-media-library::messages.not_uploaded'));
+		abort(422, __('nova-media-library::messages.not_uploaded') . $file_error);
 	}
 
 	/** Delete all selected files */
