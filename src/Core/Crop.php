@@ -18,7 +18,7 @@ class Crop {
 
 	public function __construct($form) {
 		$this->config = config('media-library.resize');
-		if ( !$this->config['crop'] or !class_exists('\Intervention\Image\ImageManager')) return;
+		if ( !is_array($this->config['crop']) or !class_exists('\Intervention\Image\ImageManager')) return;
 
 		$this->form = $form;
 	}

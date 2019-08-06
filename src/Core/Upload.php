@@ -110,7 +110,7 @@ class Upload {
 			$image = $manager->make($this->file);
 
 			$data = $image->resize($this->resize['width'], $this->resize['height'], function ($constraint) {
-				$constraint->aspectRatio();
+				if ( !$this->resize['width'] or !$this->resize['height'] ) $constraint->aspectRatio();
 				$constraint->upsize();
 			})->stream(null, $this->resize['quality'])->__toString();
 

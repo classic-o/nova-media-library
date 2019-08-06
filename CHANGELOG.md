@@ -1,5 +1,9 @@
 ## Changelog
 
+### [0.4.2] - 2019-08-06
+#### Fixed
+- Image resizing bug
+
 ### [0.4.1] - 2019-08-04
 #### Added
 - Error details while uploads files
