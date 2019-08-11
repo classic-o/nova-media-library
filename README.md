@@ -11,6 +11,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 * [Usage](#usage)
 * [Customization](#customization)
 * [Upload by url](#upload-by-url)
+* [Get image url by size](#get-image-url-by-size)
 * [Localization](#localization)
 * [Screenshots](#screenshots)
 
