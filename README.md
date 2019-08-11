@@ -25,6 +25,7 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 - [x] Implement a custom callback with the field
 - [x] Automatic resize image on the backend by width\height
 - [x] Cropping image on the frontend
+- [x] Ability to create image size variations
 
 ### Migration from 0.1 to 0.2
 
@@ -95,7 +96,18 @@ return [
         'driver'  => 'gd',
         'quality' => 80,
         'crop'    => true,  
-    ]
+    ],
+    
+    # Crop additional image variations
+    'image_sizes' => [
+        'image'     => 'Image',
+        'driver'    => 'gd',
+        'quality'   => 80,
+        'labels'    => [
+            'thumb'   => [ 200, 200, false ],
+            'medium'  => [ 800, null, false ],
+        ]
+    ],
 
 ];
 ```
@@ -194,6 +206,17 @@ $result = API::upload('https://pay.google.com/about/static/images/social/og_imag
 If an error occurred while loading, the function will return an error string.  
 If all is well - `true`  
 If you enabled resizing and the image was successfully loaded, but for some reason the script could not cut off the image - they will return `null`
+
+### Get image url by size
+If you use ability to create image size variations, you can get needed images size on the website by next function:  
+`API::getImageBySize($url, $size[, $check = true]);`  
+If the `check` is set to `true`, the function will check the existence of the image on the server, and if the image size is not exist, return the path to the original image.
+
+```php
+use ClassicO\NovaMediaLibrary\API;
+
+API::getImageBySize('http://site.com/storage/googlelogo-272x92dp-1565530871-XU2Zv.png', 'thumb');
+```
 
 ### Localization
 

@@ -96,4 +96,11 @@ class Helper {
 		return false;
 	}
 
+	static function parseSize($url, $name)
+	{
+		$array = explode('.', $url);
+		$array[count($array)-2] .= '-'. $name;
+		return implode('.', $array);
+	}
+
 }

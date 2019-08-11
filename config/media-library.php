@@ -10,7 +10,7 @@ return [
 	 * @since 0.2.0
 	 */
 
-	'disk'     => 's3' == env('FILESYSTEM_DRIVER') ? 's3' : 'public',
+	'disk'      => 's3' == env('FILESYSTEM_DRIVER') ? 's3' : 'public',
 
 	/**
 	 * Will use to return base url of media file.
@@ -105,12 +105,38 @@ return [
 
 		'height'    => null,        # Maximum height in pixels
 
-		'driver'    => 'gd',        # `gd` or `imagick` http://image.intervention.io/getting_started/configuration
+		'driver'    => 'gd',        # `gd` or `imagick`
 
 		'quality'   => 80,          # 0 - 100
 
 		'crop'      => true,        # Cropping image on the frontend
 
+	],
+
+	/**
+	 * Crop additional image variations
+	 * Supports image formats: http://image.intervention.io/getting_started/formats
+	 *
+	 * @var array|null
+	 * @since 0.5.0
+	 */
+	'image_sizes' => [
+
+		'image'     => 'Image',     # Label from types (Set `null` to disable resizing)
+
+		'driver'    => 'gd',        # `gd` or `imagick`
+
+		'quality'   => 80,          # 0 - 100
+
+		/**
+		 * @example `name` => [ width, height, upSize ]
+		 * Width and Height {int|null}
+		 * upSize {bool} - Crop image even if size will be larger. (If set to `false` - size image will be as original).
+		 */
+		'labels'    => [
+			'thumb' => [ 200, 200, false ],
+			'medium' => [ 800, null, false ],
+		]
 	]
 
 ];

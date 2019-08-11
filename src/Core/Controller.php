@@ -56,6 +56,7 @@ class Controller {
 			abort(422, __('nova-media-library::messages.size_limit_exceeded') . $file_error);
 
 		if ( $upload->save() ) {
+			ImageSizes::make($upload->path, $upload->type);
 			if ( $upload->noResize ) {
 				abort(200, __('nova-media-library::messages.unsupported_resize', [ 'file' => $file->getClientOriginalName() ]));
 			}
@@ -75,9 +76,15 @@ class Controller {
 		$delete = $this->model->deleteByIds(request('ids'));
 
 		if ( count($get) > 0 ) {
+			$sizes = config('media-library.image_sizes.labels');
 			$array = [];
 			foreach ($get as $key) {
 				$array[] = Helper::getFolder($key->path);
+				if ( is_array($sizes) ) {
+					foreach (array_keys($sizes) as $size) {
+						$array[] = Helper::getFolder(Helper::parseSize($key->path, $size));
+					}
+				}
 			}
 
 			Helper::storage()->delete($array);

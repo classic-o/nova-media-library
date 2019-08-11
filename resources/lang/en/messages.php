@@ -30,7 +30,7 @@ return [
 	'no_file_selected'          => 'No file selected',
 	'no_files_selected'         => 'No files selected',
 	'no_files_found'            => 'No files found',
-	'not_uploaded'              => 'The file was not uploaded',
+	'not_uploaded'              => 'The file was not downloaded for unknown reasons.',
 	'open'                      => 'Open',
 	'open_library'              => 'Open Library',
 	'overwrite_existing'        => 'Overwrite existing',

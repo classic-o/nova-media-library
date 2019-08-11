@@ -1,5 +1,12 @@
 ## Changelog
 
+### [0.5.0] - 2019-08-11
+#### Fixed
+- Bug with cropping image on frontend 
+
+#### Added
+- Ability to create image size variations
+
 ### [0.4.2] - 2019-08-06
 #### Fixed
 - Image resizing bug
