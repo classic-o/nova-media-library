@@ -79,4 +79,32 @@
   }
 }
 
+.no-image-file {
+  background-repeat: no-repeat;
+  background-position: top 20px center;
+  height: 80px;
+  position: relative;
+  &:before, &:after {
+    background: rgba(#000, .5);
+    bottom: 5px;
+    content: '';
+    height: 15px;
+    left: 0;
+    line-height: 15px;
+    position: absolute;
+    width: 100%;
+  }
+  &:after {
+    background: transparent;
+    color: #fff;
+    content: attr(title);
+    left: 8px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 16px);
+  }
+}
+
 [trix-nml] .attachment__metadata-container { display: none }
