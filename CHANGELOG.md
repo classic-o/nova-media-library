@@ -1,5 +1,13 @@
 ## Changelog
 
+### [0.5.3] - 2019-11-02
+#### Fixed
+- Bug with checkbox in Nova 2.6.0
+
+### [0.5.2] - 2019-10-19
+#### Fixed
+- Blank value when a single video file selected
+
 ### [0.5.0] - 2019-08-11
 #### Fixed
 - Bug with cropping image on frontend 
