@@ -4,7 +4,7 @@
     <draggable v-if="array.length" class="flex flex-wrap -mx-1 -mb-2" v-model="array" @end="changeListing(array)" :disabled="!isForm">
       <div :class="type" class="gal px-1 mb-2 w-1/6" v-for="(item,i) in array" :key="'nml'+i">
 
-          <div class="card block shadow-md nml-icon-file" :style="'line' !== type && setBg(item)">
+          <div class="card block shadow-md nml-icon-file" :style="'line' !== type && setBg(item)" :title="item">
 
             <div v-if="'line' === type">{{ getName(item) }}</div>
 

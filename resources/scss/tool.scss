@@ -16,13 +16,16 @@
       width: 100%;
       z-index: 2;
     }
-    .check {
+    input.checkbox, .check {
+      background: transparent;
       border: 5px solid var(--white);
       border-radius: 4px;
+      box-shadow: none;
       height: 100%;
       width: 100%;
       svg { display: none }
     }
+    input.checkbox:checked,
     input[type="checkbox"]:checked ~ .check { border-color: var(--primary) }
     &:before, &:after {
       background: rgba(#000, .5);
