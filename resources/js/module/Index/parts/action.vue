@@ -5,8 +5,8 @@
       class="mr-6"
       v-if="$parent.tool || $parent.listing"
       :checked="$parent.bulk.is"
-      @input="changeBulk"
       @change="changeBulk"
+      @input="changeBulk"
     >{{ __("nml_bulk_select") }}</checkbox-with-label>
 
     <button
