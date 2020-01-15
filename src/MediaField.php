@@ -15,7 +15,7 @@ class MediaField extends Field
 			$value = $request[$requestAttribute];
 			if ( !$value or 'null' === $value ) $value = null;
 			if ( isset($this->meta['listing']) ) $value = json_decode($request[$requestAttribute], true);
-			$model->{$attribute} = $value;
+			$model->{$attribute} = array_unique($value);
 		}
 	}
 
