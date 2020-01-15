@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs"
+    <div class="card border border-lg border-50 w-1/6 p-8 text-center cursor-pointer max-w-xs"
          v-if="!item && isForm"
          @click="popup = true">
       {{ __('Select File') }}
