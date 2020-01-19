@@ -2,105 +2,88 @@
 
 namespace ClassicO\NovaMediaLibrary\Core;
 
+use ClassicO\NovaMediaLibrary\API;
 use Illuminate\Support\Facades\Storage;
 
 class Helper {
 
-	/**
-	 * Return all global config (for frontend)
-	 *
-	 * @return array
-	 */
-	static function frontConfig()
-	{
-		$config_types = config('media-library.types');
-
-		if ( is_array($config_types) ) {
-
-			$types = [];
-			$labels = [];
-
-			if ( count($config_types) > 1 ) {
-				$labels = array_keys($config_types);
-			}
-
-			foreach ($config_types as $key) {
-				$types = array_merge($types, $key);
-			}
-
-			if ( in_array('*', $types) ) $types = [];
-
-			return [
-				'nml_types' => $labels,
-				'nml_accept' => preg_filter('/^/', '.', $types),
-				'nml_crop' => config('media-library.resize.crop'),
-				'nml_lang' => self::getLang()
-			];
-		}
-
-		return [];
-	}
-
-	private static function getLang()
-	{
-		$file = resource_path('lang/vendor/nova-media-library/'.app()->getLocale().'/messages.php');
-		if ( !is_readable($file)) return [];
-
-		$nml = [];
-		$lang = include $file;
-
-		if ( 'array' == gettype($lang) ) {
-			foreach ($lang as $key => $val) {
-				$nml['nml_'.$key] = $val;
-			}
-		}
-
-		return $nml;
-	}
-
 	static function storage()
 	{
-		return Storage::disk(config('media-library.disk'));
+		return Storage::disk(config('nova-media-library.disk', 'public'));
 	}
 
-	static function getFolder($path = '')
+	static function directories()
 	{
-		return preg_replace('/(\/)\\1+/', '$1',
-			'/'. (string)config('media-library.folder') .'/'. $path
+		$len = strlen(substr(self::folder(), 1));
+		$array = [];
+
+		foreach (self::storage()->allDirectories() as $item) {
+			if ( 'nml_temp' == $item ) continue;
+			$path = str_replace('/', '.', substr($item, $len));
+			if ( $path ) data_set($array, $path, 0);
+		}
+
+		return $array;
+	}
+
+	static function replace($str)
+	{
+		return preg_replace('/(\/)\\1+/', '$1', str_replace('\\', '/', $str));
+	}
+
+	static function folder($path = '')
+	{
+		return self::replace('/'. (string)config('nova-media-library.folder', '') .'/'. $path);
+	}
+
+	static function size($bytes)
+	{
+		if ( $bytes / 1073741824 >= 1 )
+			return round($bytes / 1073741824, 2) .' '. __('gb');
+
+		if ( $bytes / 1048576 >= 1 )
+			return round($bytes / 1048576, 2) .' '. __('mb');
+
+		if ( $bytes / 1024 >= 1 )
+			return round($bytes / 1024, 2) .' '. __('kb');
+
+		return $bytes .' '. __('b');
+	}
+
+	static function isPrivate($folder)
+	{
+		$disk = config('nova-media-library.disk');
+		$private = false;
+
+		if ( 's3' == $disk )
+			$private = config('nova-media-library.private') ?? false;
+		else if ( 'local' == $disk )
+			$private = '/public/' != substr(self::folder($folder), 0, 8);
+
+		return $private;
+	}
+
+	static function visibility($bool)
+	{
+		return $bool ? 'private' : 'public';
+	}
+
+	static function preview($item, $size)
+	{
+		if ( !in_array($size, data_get($item, 'options.img_sizes', [])) ) return null;
+
+		$url = data_get($item, 'url');
+
+		return data_get($item, 'private') ? $url . '&img_size='. $size : API::getImageSize($url, $size);
+	}
+
+	static function localPublic($folder, $private)
+	{
+		return (
+			'local' == config('nova-media-library.disk') and
+			!$private and
+			'/public/' == substr(self::folder($folder), 0, 8)
 		);
-	}
-
-	static function getDate()
-	{
-		$folder = '/';
-		$by_date = config('media-library.by_date');
-
-		if ( is_string($by_date) ) {
-			$date = preg_replace('/[^Ymd_\-\/]/', '', $by_date);
-			$folder .= date($date) .'/';
-		}
-
-		return preg_replace('/(\/)\\1+/', '$1', $folder);
-	}
-
-	static function getType($extension)
-	{
-		$types = config('media-library.types');
-		if ( !is_array($types) ) return false;
-
-		foreach ($types as $label => $array) {
-			if ( in_array($extension, $array) or in_array('*', $array) )
-				return $label;
-		}
-
-		return false;
-	}
-
-	static function parseSize($url, $name)
-	{
-		$array = explode('.', $url);
-		$array[count($array)-2] .= '-'. $name;
-		return implode('.', $array);
 	}
 
 }

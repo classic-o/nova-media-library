@@ -1,18 +1,18 @@
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
-import mixin from '../mixin'
-import nmlList from '../module/List/'
+
+import nmlArray from '../module/Array/'
+import nmlCallback from '../module/Callback/'
 import nmlFile from '../module/File/'
 import nmlTrix from '../module/Trix/'
-import nmlCallback from '../module/Callback/'
 
 export default {
-  mixins: [mixin, FormField, HandlesValidationErrors],
-  components: { nmlList, nmlFile, nmlTrix, nmlCallback },
+  mixins: [FormField, HandlesValidationErrors],
+  components: { nmlArray, nmlFile, nmlCallback, nmlTrix },
   props: ['field'],
   data() {
     return {
       isFormField: true,
-      isHidden: this.field.isHidden === true
+      isHidden: this.field.nmlHidden === true
     }
   },
   methods: {
@@ -20,8 +20,18 @@ export default {
       this.value = this.field.value || null
     },
     fill(formData) {
-      if ( Array.isArray(this.value) ) this.value = JSON.stringify(this.value);
-      formData.append(this.field.attribute, this.value || null)
+      let data = null;
+
+      if ( this.value ) {
+        if ( this.field.nmlArray && Array.isArray(this.value) ) {
+          data = this.value.map(item => item.id);
+        } else if ( !this.field.nmlArray && 'object' === typeof this.value && this.value.id ) {
+          data = this.value.id;
+        }
+        if ( Array.isArray(data) ) data = JSON.stringify(data);
+      }
+
+      formData.append(this.field.attribute, data);
     },
     handleChange(value) {
       this.value = value

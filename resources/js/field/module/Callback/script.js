@@ -1,33 +1,27 @@
-import mixin from '../../mixin'
 import Library from '../Library'
 
 export default {
-  mixins: [mixin],
   props: ['field'],
   components: { Library },
   data() {
-    this.field.listing = true;
     return {
       popup: false
     }
   },
   methods: {
-    select(value) {
-      if ( 'string' === typeof this.field.jsCallback ) {
-        return eval(this.field.jsCallback)(value, this.field.jsCbConfig || []);
-      }
+    select(array) {
+      let cb = this.field.nmlJsCallback;
+      if ( 'object' === typeof cb && cb[0] && window[cb[0]] )
+        eval(cb[0])(array, cb[1]);
     }
   },
   created() {
-    Nova.$on('nml-select-file', value => {
-      if ( value[0] !== this.field.attribute ) return;
+    Nova.$on(`nmlSelectFiles[${this.field.attribute}]`, array => {
       this.popup = false;
-      this.select([value[1]]);
+      this.select(array);
     });
-    Nova.$on('nml-select-files', value => {
-      if ( value[0] !== this.field.attribute ) return;
-      this.popup = false;
-      this.select(value[1]);
-    });
+  },
+  beforeDestroy() {
+    Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }
 }

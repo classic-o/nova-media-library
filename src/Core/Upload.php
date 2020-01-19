@@ -6,54 +6,85 @@ use Illuminate\Support\Str;
 
 class Upload {
 
-	var $description;
-	var $path;
-	var $mime;
-	var $size;
-	var $type;
+	var $title;
+	var $folder;
+	var $name;
+	var $type = false;
+	var $private = false;
+	var $lp = false;
+	var $options = [];
 
-	var $noResize;
+	var $resize = [];
+	var $noResize = false;
 
 	private $config;
 	private $file;
-	private $bytes = 0;
 	private $extension;
-	private $resize;
+	private $bytes = 0;
 
 	function __construct($file) {
-		$this->config = config('media-library');
-		$this->resize = $this->config['resize'];
+		$this->config = config('nova-media-library');
 		$this->file = $file;
-		$this->mime = explode('/', $file->getMimeType())[0];
 		$this->extension = strtolower($file->getClientOriginalExtension());
+
+		$this->title = data_get(pathinfo($file->getClientOriginalName()), 'filename', Str::random());
+		$this->name = Str::slug($this->title) .'-'. time() . Str::random(5) .'.'. $this->extension;
+		$this->options['mime'] = explode('/', $file->getMimeType())[0];
 	}
 
 	function setType()
 	{
-		$this->type = Helper::getType($this->extension);
+		$types = config('nova-media-library.types');
+		if ( !is_array($types) ) return false;
+
+		foreach ($types as $label => $array) {
+			if ( in_array($this->extension, $array) or in_array('*', $array) ) {
+				$this->type = $label;
+				return $label;
+				break;
+			}
+		}
+
+		return false;
 	}
 
-	function setName($value)
+	function setWH()
 	{
-		$this->description = $value;
-		$value = explode('.', $value);
-		array_pop($value);
+		list($width, $height) = getimagesize($this->file);
 
-		$this->path = str_replace('//', '/',
-			Helper::getDate() .
-			substr(Str::slug(implode('.', $value)), 0, 100)
-			.'-'. time() .'-'. Str::random(5) .'.'. $this->extension
-		);
+		if ( $width and $height ) {
+			$this->options['wh'] = [$width, $height];
+		}
+	}
+
+	function setFolder($folder = null)
+	{
+		if ( 'folders' != config('nova-media-library.store') )
+			$this->folder = $this->date();
+		elseif ( is_string($folder) )
+			$this->folder = Helper::replace('/'. $folder .'/');
+		else
+			$this->folder = '/';
+	}
+
+	function setPrivate()
+	{
+		$this->private = Helper::isPrivate($this->folder);
+		$this->lp = Helper::localPublic($this->folder, $this->private);
 	}
 
 	function setFile()
 	{
+		$this->resize['width']  = data_get($this->config, 'resize.original.0');
+		$this->resize['height'] = data_get($this->config, 'resize.original.1');
+		$this->resize['upSize'] = data_get($this->config, 'resize.original.2');
+		$this->resize['upWH']   = data_get($this->config, 'resize.original.3');
 		if ( !is_int($this->resize['width']) )  $this->resize['width'] = null;
 		if ( !is_int($this->resize['height']) ) $this->resize['height'] = null;
 
+
 		if (
-			'image' == $this->mime and
-			$this->resize['image'] === $this->type and
+			'image' == $this->options['mime'] and
 			( $this->resize['width'] or $this->resize['height'] ) and
 			class_exists('\Intervention\Image\ImageManager')
 		) {
@@ -65,31 +96,32 @@ class Upload {
 
 	function checkSize()
 	{
-		$max = $this->config['max_size'];
-		if ( $max and isset($max[$this->type]) and $max[$this->type] < $this->bytes ) return false;
+		$size = data_get($this->config, 'max_size.'.$this->type);
+		if ( $size and $size < $this->bytes ) return false;
 
-		$this->size = [ $this->bytes/1024, __('nova-media-library::messages.kb') ];
-		if ( $this->size[0]/1024 > 1 )
-			$this->size = [ $this->size[0]/1024, __('nova-media-library::messages.mb') ];
-
-		$this->size[0] = round($this->size[0], 2);
-		$this->size = implode(' ', $this->size);
-
+		$this->options['size'] = Helper::size($this->bytes);
 		return true;
 	}
 
 	function save()
 	{
-		if ( Helper::storage()->put(Helper::getFolder($this->path), $this->file) ) {
-			$res = Model::create([
-				'description' => $this->description,
-				'path' => $this->path,
-				'mime' => $this->mime,
-				'size' => $this->size,
+		if (
+			Helper::storage()->put(
+				Helper::folder($this->folder . $this->name),
+				$this->file,
+				Helper::visibility($this->private)
+			)
+		) {
+			return Model::create([
+				'title' => $this->title,
+				'created' => now(),
 				'type' => $this->type,
-				'created' => now()
+				'folder' => $this->folder,
+				'name' => $this->name,
+				'private' => $this->private,
+				'lp' => $this->lp,
+				'options' => $this->options
 			]);
-			return !!$res;
 		}
 		return false;
 	}
@@ -100,26 +132,58 @@ class Upload {
 	{
 		$this->bytes = $this->file->getSize();
 		$this->file = file_get_contents($this->file);
-		#$this->file = $this->file->get();
 	}
 
 	private function byResize()
 	{
 		try {
-			$manager = new \Intervention\Image\ImageManager([ 'driver' => $this->resize['driver'] ]);
+			list($width, $height) = getimagesize($this->file);
+			if (
+				!is_numeric($width) or !is_numeric($height) or
+				!$this->resize['upWH'] and
+				( !$this->resize['width'] or $this->resize['width'] > $width) and
+				( !$this->resize['height'] or $this->resize['height'] > $height )
+			) {
+				return $this->noResize(false);
+			}
+		} catch (\Exception $e) {
+			return $this->noResize();
+		}
+
+		try {
+			$manager = new \Intervention\Image\ImageManager([ 'driver' => data_get($this->config, 'resize.driver') ]);
 			$image = $manager->make($this->file);
 
 			$data = $image->resize($this->resize['width'], $this->resize['height'], function ($constraint) {
 				if ( !$this->resize['width'] or !$this->resize['height'] ) $constraint->aspectRatio();
-				$constraint->upsize();
-			})->stream(null, $this->resize['quality'])->__toString();
+				if ( true !== $this->resize['upSize'] ) $constraint->upsize();
+			})->stream(null, data_get($this->config, 'resize.quality'))->__toString();
 
 			$this->bytes = strlen($data);
 			$this->file = $data;
 		} catch (\Exception $e) {
-			$this->noResize = true;
-			$this->byDefault();
+			$this->noResize();
 		}
+	}
+
+	private function noResize($bool = true)
+	{
+		$this->noResize = $bool;
+		$this->byDefault();
+		return null;
+	}
+
+	private function date()
+	{
+		$folder = '/';
+		$by_date = config('nova-media-library.by_date');
+
+		if ( $by_date ) {
+			$date = preg_replace('/[^Ymd_\-\/]/', '', $by_date);
+			$folder .= date($date) .'/';
+		}
+
+		return Helper::replace($folder);
 	}
 
 }

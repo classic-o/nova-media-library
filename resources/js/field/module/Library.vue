@@ -4,9 +4,9 @@
 
     <div class="relative z-30 bg-white p-8 rounded-lg shadow-lg m-auto">
 
-      <button type="button" class="close select-none" @click="$parent.popup = null">&times;</button>
+      <button type="button" class="nml-close select-none" @click="$parent.popup = null">&times;</button>
 
-      <Library :listing="field.listing" :field="field.attribute" :types="types" />
+      <Library :field="field.attribute" :isArray="field.nmlArray" :types="types" />
 
     </div>
 
@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import Library from '../../module/Index/index.vue'
+import Library from '../../tool/'
 
 export default {
   props: ['field'],
   components: { Library },
   data() {
     return {
-      types: Array.isArray(this.field.withTypes) ? this.field.withTypes : []
+      types: Array.isArray(this.field.nmlTypes) ? this.field.nmlTypes : []
     }
   },
   mounted() {

@@ -1,27 +1,23 @@
-import mixin from '../mixin'
+import Mixin from '../../_mixin'
 
 export default {
-  mixins: [mixin],
   props: ['field'],
+  mixins: [Mixin],
   data() {
     return {
       count: 0,
-      url: false
+      item: null
     }
   },
   created() {
     let field = this.field;
     if ( !field.value ) return;
 
-    if ( field.listing ) {
-      try {
-        if ( Array.isArray(field.value) && field.value.length > 0 ) {
-          this.count = field.value.length;
-          this.url = field.value[0];
-        }
-      } catch (e) {}
-    } else {
-      this.url = field.value;
+    if ( Array.isArray(field.value) && field.value.length > 0 ) {
+      this.count = field.value.length;
+      this.item = field.value[0];
+    } else if ( 'object' === typeof field.value ) {
+      this.item = field.value;
     }
   }
 }

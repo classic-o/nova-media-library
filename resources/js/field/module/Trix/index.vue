@@ -2,10 +2,10 @@
   <div>
 
     <a class="cursor-pointer dim inline-block text-primary font-bold mt-2" @click="popup = true">
-      {{ __("nml_open_library") }}
+      {{ __('Media Library') }}
     </a>
 
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <Library v-if="popup" :field="field" />
     </transition>
 

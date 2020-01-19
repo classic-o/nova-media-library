@@ -1,49 +1,43 @@
-import mixin from '../../mixin'
 import Library from '../Library'
 
 export default {
-  mixins: [mixin],
   props: ['field'],
   components: { Library },
   data() {
-    this.field.listing = true;
     return {
       popup: false
     }
   },
   methods: {
-    select(value) {
-      let trix = document.querySelector(`[trix-nml="${this.field.forTrix}"]`);
-      if ( !trix ) return this.$toasted.show(this.__("nml_trix_id_incorrect"), { type: 'error' });
+    select(array) {
+      let trix = document.querySelector(`[nml-trix="${this.field.nmlTrix}"]`);
 
-      if ( Array.isArray(value) ) {
-        value.forEach(item => {
-          let html = this.isImage(item) ? `<img src="${item}">` : `<a href="${item}">${item}</a>`;
-          trix.editor.insertHTML(html);
+      if ( trix && Array.isArray(array) ) {
+        array.forEach(item => {
+          trix.editor.insertHTML(
+            'image' === item.options.mime
+              ? `<img src="${item.url}">`
+              : `<a href="${item.url}">${item.url}</a>`
+          );
         });
       }
 
       this.clearAttach();
     },
     clearAttach() {
-      let trix = document.querySelector(`[trix-nml="${this.field.forTrix}"]`);
+      let trix = document.querySelector(`[nml-trix="${this.field.nmlTrix}"]`);
       if ( trix ) trix.editor.composition.attachments = [];
     }
   },
   created() {
     addEventListener('trix-attachment-add', this.clearAttach);
-    Nova.$on('nml-select-file', value => {
-      if ( value[0] !== this.field.attribute ) return;
-      this.select([value[1]]);
+    Nova.$on(`nmlSelectFiles[${this.field.attribute}]`, array => {
       this.popup = false;
-    });
-    Nova.$on('nml-select-files', value => {
-      if ( value[0] !== this.field.attribute ) return;
-      this.select(value[1]);
-      this.popup = false;
+      this.select(array);
     });
   },
   beforeDestroy() {
     removeEventListener('trix-attachment-add', this.clearAttach);
+    Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }
 }

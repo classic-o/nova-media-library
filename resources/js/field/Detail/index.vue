@@ -1,27 +1,31 @@
 <template>
-    <div class="flex border-b border-40">
-        <slot>
-            <div class="w-1/4 py-4 font-normal text-80">
-                {{ field.indexName }}
-            </div>
-        </slot>
-        <slot name="value">
-            <div class="nml-field-form w-3/4 py-4">
+  <div class="flex border-b border-40">
 
-                <span class="cursor-pointer dim text-primary font-bold"
-                      v-if="isHidden" @click="isHidden = false"
-                >{{ __("nml_show") }}</span>
+    <slot>
+      <div class="w-1/4 py-4 font-normal text-80">
+        {{ field.indexName }}
+      </div>
+    </slot>
 
-                <template v-else-if="field.value">
-                    <nmlList v-if="field.listing" :field="field" />
-                    <nmlFile v-else :field="field" />
-                </template>
+    <slot name="value">
+      <div class="nml-field-form w-3/4 py-4">
 
-                <template v-else>—</template>
+        <template v-if="!field.value">—</template>
 
-            </div>
-        </slot>
-    </div>
+        <span class="cursor-pointer dim text-primary font-bold"
+              v-else-if="isHidden"
+              @click="isHidden = false"
+        >{{ __('Show') }}</span>
+
+        <template v-else-if="!field.nmlJsCallback && !field.nmlTrix">
+          <nmlArray v-if="field.nmlArray" :field="field" />
+          <nmlFile v-else :field="field" />
+        </template>
+
+      </div>
+    </slot>
+
+  </div>
 </template>
 
 <script src="./script.js"></script>

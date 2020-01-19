@@ -2,91 +2,92 @@
 
 namespace ClassicO\NovaMediaLibrary\Core;
 
+use Illuminate\Support\Facades\Route;
+
+/**
+ * @property $id
+ * @property $title
+ * @property $created
+ * @property $type
+ * @property $folder
+ * @property $name
+ * @property $private
+ * @property $lp
+ * @property $options
+ *
+ * @property $url
+ * @property $path
+ */
 class Model extends \Illuminate\Database\Eloquent\Model {
 
 	public $timestamps = false;
 
 	protected $table = 'nova_media_library';
 
-	protected $fillable = [ 'id', 'description', 'path', 'mime', 'size', 'type', 'created' ];
+	protected $fillable = ['id', 'title', 'created', 'type', 'folder', 'name', 'private', 'lp', 'options'];
 
-	protected $appends = [ 'url' ];
+	protected $appends = ['url', 'path'];
 
 	protected $casts = [
-		'created' => 'datetime'
+		'created' => 'datetime',
+		'options' => 'object'
 	];
 
-
-	/**
-	 * Create full url and name for each image
-	 *
-	 * @return string
-	 */
 	function getUrlAttribute() {
-		return config('media-library.url', '') . Helper::getFolder($this->path);
+		if ( $this->lp )
+			return config('nova-media-library.url', '') . substr($this->path, 7);
+
+		if ( !$this->private )
+			return config('nova-media-library.url', '') . $this->path;
+
+		if ( Route::has('nml-private-file') )
+			return route('nml-private-file', [ 'id' => $this->id, 'img_size' => request('img_size') ]);
+
+		return null;
 	}
 
-	/**
-	 * Search media files by params
-	 *
-	 * @param $description - entered keyword
-	 * @param $type - label of type from config
-	 * @param $page - pagination
-	 * @param $from - uploaded date from
-	 * @param $to - uploaded date to
-	 * @return array
-	 */
-	function search($description, $type, $page, $from, $to)
+	function getPathAttribute() {
+		return Helper::folder($this->folder . $this->name);
+	}
+
+	function search()
 	{
-		$step = config('media-library.step');
+		$param = request()->all();
+		$title = trim(htmlspecialchars(request('title', '')));
+		$folder = trim(htmlspecialchars(request('folder', '')));
+
+		$step = config('nova-media-library.step');
 		if ( !is_int($step) or $step < 1 ) $step = 40;
-		if ( !is_int($page) or $page < 1 ) $page = 0;
 
-		return $this
-			       ->where(function($query) use ($description) {
-				        if ( !is_null($description) )
-					        $query->where('description', 'LIKE', "%$description%");
-			       })
-			       ->where(function($query) use ($type) {
-				        if ( !is_null($type) )
-					        $query->where('type', $type);
-			       })
-			       ->where(function($query) use ($from) {
-				       if ( $from )
-				       	    $query->where('created', '>=', $from . ' 00:00:00');
-			       })
-			       ->where(function($query) use ($to) {
-				        if ( $to )
-				       	    $query->where('created', '<=', $to . ' 23:59:59');
-			       })
-			       ->skip($page * $step)
-			       ->take($step)
-			       ->orderBy('id', 'DESC')
-			       ->get() ?? [];
-	}
+		$data = $this
+			->where(function($query) use ($folder) {
+				if ( $folder )
+					$query->where('folder', $folder);
+			})
+			->where(function($query) use ($param) {
+				if ( is_array($param['type']) and $param['type'] )
+					$query->whereIn('type', $param['type']);
+			})
+			->where(function($query) use ($param) {
+				if ( $param['from'] )
+					$query->where('created', '>=', $param['from'] . ' 00:00:00');
+			})
+			->where(function($query) use ($param) {
+				if ( $param['to'] )
+					$query->where('created', '<=', $param['to'] . ' 23:59:59');
+			})
+			->where(function($query) use ($title) {
+				if ( $title )
+					$query->where('title', 'LIKE', "%$title%");
+			});
 
-	/**
-	 * Delete all rows by array of ids
-	 *
-	 * @param array $ids
-	 * @return int
-	 */
-	function deleteByIDs($ids = [])
-	{
-		return $this->whereIn('id', $ids)->delete();
-	}
-
-	/**
-	 * Update description
-	 *
-	 * @param int $id
-	 * @param array $update
-	 */
-	function updateData($id, $update = [])
-	{
-		$this->where('id', $id)
-			->first()
-			->update($update);
+		return [
+			'total' => (clone $data)->count(),
+			'array' => $data->skip($param['page'] * $step)
+			                ->take($step)
+			                ->orderBy('id', 'DESC')
+			                ->get() ?? []
+		];
 	}
 
 }

@@ -10,18 +10,18 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "cross-env": "^5.2.0",
+        "cross-env": "^5.2.1",
         "laravel-mix": "^3.0.0",
         "laravel-nova": "^1.0.9",
-        "resolve-url-loader": "^2.3.1",
-        "sass": "^1.21.0",
-        "sass-loader": "^7.1.0",
+        "resolve-url-loader": "^2.3.2",
+        "sass": "^1.23.7",
+        "sass-loader": "^7.3.1",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "cropperjs": "^1.5.1",
+        "cropperjs": "^1.5.6",
         "v-copy": "^0.1.0",
         "vue": "^2.6.10",
-        "vuedraggable": "^2.21.0"
+        "vuedraggable": "^2.23.2"
     }
 }

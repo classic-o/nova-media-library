@@ -4,34 +4,36 @@ Tool and Field for [Laravel Nova](https://nova.laravel.com) that will let you ma
 
 ##### Table of Contents
 * [Features](#features)
-* [Migration from 0.1 to 0.2](#migration-from-01-to-02)
+* [Migration from 0.x to 1.x](#migration-from-0x-to-1x)
 * [Requirements](#requirements)
 * [Install](#install)
 * [Configuration](#configuration)
 * [Usage](#usage)
 * [Customization](#customization)
-* [Upload by url](#upload-by-url)
-* [Get image url by size](#get-image-url-by-size)
+* [Upload by url or path](#upload-by-url-or-path)
+* [Get files by ids](#get-files-by-ids)
+* [Private files](#private-files)
 * [Localization](#localization)
 * [Screenshots](#screenshots)
 
 ### Features
 
 - [x] Store and manage your media files
-- [x] Use field as single image
-- [x] Use field as gallery
-- [x] Use field as list
-- [x] Upload files by url
+- [x] Use field for single file
+- [x] Use field for array of files
+- [x] Upload files by url/path
 - [x] Integrate Media Field with Trix editor
-- [x] Implement a custom callback with the field
+- [x] Implement custom JS callback for field
 - [x] Automatic resize image on the backend by width\height
 - [x] Cropping image on the frontend
 - [x] Ability to create image size variations
+- [x] Organize files in single folder, separate by date or by manageable folders
+- [x] Ability to control files visibility
 
-### Migration from 0.1 to 0.2
+### Migration from 0.x to 1.x
 
-In version 0.2, the configuration file and database migration have been changed.  
-After upgrading to version 0.2+, you need to remove the old table from the database, then reinstall and reconfigure these files.
+In version 1.x, the configuration file and database migration have been changed.  
+After upgrading to version 1.x, you need to remove the old table from the database, then reinstall and reconfigure these files.
 
 ### Requirements
 
@@ -41,7 +43,7 @@ After upgrading to version 0.2+, you need to remove the old table from the datab
 
 ### Install
 
-```php
+```
 composer require classic-o/nova-media-library
 
 php artisan vendor:publish --provider="ClassicO\NovaMediaLibrary\ToolServiceProvider"
@@ -53,81 +55,25 @@ php artisan storage:link
 
 ### Configuration
 
-For more information and examples see the [configuration file](https://github.com/classic-o/nova-media-library/blob/master/config/media-library.php)
-```php
-# config/media-library.php
-
-return [
-
-    # Filesystem disk. Available `public` or `s3`.
-    'disk' => 's3' == env('FILESYSTEM_DRIVER') ? 's3' : 'public',
-	
-    # Will use to return base url of media file.
-    'url' => 's3' == env('FILESYSTEM_DRIVER') ? env('AWS_URL', '') : env('APP_URL', '') . '/storage',
-
-    # Save all files in a separate folder
-    'folder' => 'uploads',
-
-    # Organize uploads into date based folders.
-    'by_date' => null,
-	
-    # This option allow you to filter your files by types and extensions.
-    'types' => [
-        'Image' => [ 'jpg', 'jpeg', 'png', 'gif', 'svg' ],
-        'Docs'  => [ 'doc', 'xls', 'docx', 'xlsx' ],
-        'Audio' => [ 'mp3' ],
-        'Video' => [ 'mp4' ],
-        'Other' => [ '*' ],
-    ],
-  	
-    # Maximum size of file uploads in bytes for each types.
-    'max_size' => [
-        'Image' => 2097152,
-        'Docs'  => 5242880,
-    ],
-    
-    # The number of files that will be returned with each step.
-    'step' => 40,
-    
-    # Allow you to resize images by width\height. Using http://image.intervention.io library
-    'resize' => [
-        'image'   => 'Image',
-        'width'   => 1200,
-        'height'  => null,
-        'driver'  => 'gd',
-        'quality' => 80,
-        'crop'    => true,  
-    ],
-    
-    # Crop additional image variations
-    'image_sizes' => [
-        'image'     => 'Image',
-        'driver'    => 'gd',
-        'quality'   => 80,
-        'labels'    => [
-            'thumb'   => [ 200, 200, false ],
-            'medium'  => [ 800, null, false ],
-        ]
-    ],
-
-];
-```
+[See configuration file](https://github.com/classic-o/nova-media-library/blob/master/config/nova-media-library.php)
 
 ### Usage
 
-Add the below to the tools function in app/Providers/NovaServiceProvider.php
-```php
+Add tool in app/Providers/NovaServiceProvider.php
+
+```
 public function tools()
 {
     return [
-        new \ClassicO\NovaMediaLibrary\NovaMediaLibrary(),
+        new \ClassicO\NovaMediaLibrary\NovaMediaLibrary()
     ];
 }
 ```
 
 Add Field to the resource.
-```php
-use ClassicO\NovaMediaLibrary\MediaField;
+
+```
+use ClassicO\NovaMediaLibrary\MediaLibrary;
 
 class Post extends Resource
 {
@@ -136,7 +82,7 @@ class Post extends Resource
         {
             return [
                 ...
-                MediaField::make('Image'),
+                MediaLibrary::make('Image'),
                 ...
             ];
         }
@@ -146,95 +92,143 @@ class Post extends Resource
 
 ### Customization
 
-By default, this field is used as single image. If you need to set the field as a listing, add a method:
-```php
-# Display as a gallery
-MediaField::make('Gallery')
-          ->listing(),
-    
-# Display by line
-MediaField::make('Listing')
-          ->listing('line'),
-```
-_When you use a listing, set the casts as array to needed column in model and type `TEXT` in database_
+By default, this field is used as single file. If you need to use as array of files, add option:
 
-If you want to hide the listing under the accordion, add the following method
-```php
-MediaField::make('Gallery')
-          ->listing()
-          ->isHidden()
+```
+# Display
+MediaLibrary::make('Gallery')
+            ->array(),
+```
+    
+By default this files display automatically, `gallery` or `list` as in tool.  
+You can set in first parameter needed display type:
+
+```
+MediaLibrary::make('Documents')
+            ->array('list'),
+```
+
+_When you use array, set the casts as array to needed column in model and set type `nullable TEXT` in database_  
+_For single file - `nullable INT`_
+
+If you want to hide files under the accordion, add the following option:
+```
+MediaLibrary::make('Gallery')
+            ->array()
+            ->hidden()
 ```
 
 You can limit the selection of files by type (Labels of types from configuration file).
-```php
-MediaField::make('Image')
-          ->withTypes(['Image', 'Video'])
+
+```
+MediaLibrary::make('File')
+            ->types(['Audio', 'Video'])
 ```
 
-You can also integrate the media button with the Trix editor.
-You need to set a unique name in the `forTrix` method and add an additional attribute with the same name in the Trix field:
-```php
-MediaField::make('For Trix', null)
-          ->forTrix('unique_trix_name'),
+To set preview size of images in fields, add the following option (Label of cropped additional image variation)  
+By default, the preview size is set in the configuration file.
+
+```
+MediaLibrary::make('File')
+            ->preview('thumb')
+```
+
+You can also integrate the Media Field with the Trix editor.
+You need to set a unique name in the `trix` option and add an additional attribute with the same name in the Trix field:
+
+```
+MediaLibrary::make('For Trix')
+            ->trix('unique_trix_name'),
 
 Trix::make('Content')
-    ->withMeta([ 'extraAttributes' => [ 'trix-nml' => 'unique_trix_name' ] ])
+    ->withMeta([ 'extraAttributes' => [ 'nml-trix' => 'unique_trix_name' ] ])
 ```
 
-If you need to set a custom callback for the media button, use the method `jsCallback`.
-- The first parameter you specified as the name of the JS function callback.
-- The second (optional) is an array of advanced settings
-```php
-MediaField::make('With Callback', null)
-	        ->jsCallback('callback_name', [ 'name' => 'Nova' ]),
+For set a custom callback for the Media Field, use the method `jsCallback`.
+- The first parameter set as the name of the JS function callback.
+- The second (optional) is an array of advanced options
+
+```
+MediaLibrary::make('JS Callback')
+	        ->jsCallback('callbackName', [ 'example' => 'Nova' ]),
 ```
 
-Your JavaScript callback should have 2 parameters. The first will be an array of files, second - your settings.
-```javascript
-function callback_name(array, settings) {
-  console.log(array, settings);
+Your JavaScript callback should have 2 parameters. The first will be an array of files, second - your options.
+
+```
+window.callbackName = function (array, options) {
+  console.log(array, options);
 }
 ```
 
-### Upload by url
+_When you use JS Callback or Trix option two or more times on one resource, set second parameter of make method to any unique name_
+
+```
+MediaLibrary::make('JS Callback', 'js_cb_name_1')
+	        ->jsCallback('callbackName', [ 'example' => 'Nova' ]),
+MediaLibrary::make('Trix Field', 'trix_name_1')
+	        ->trix('unique_trix_name'),
+```
+
+### Upload by url or path
 
 Also you can programmatically add files to the media library by url or path.
-```php
+
+```
 use \ClassicO\NovaMediaLibrary\API;
+
 $result = API::upload('https://pay.google.com/about/static/images/social/og_image.jpg');
 ```
 
-If an error occurred while loading, the function will return an error string.  
-If all is well - `true`  
-If you enabled resizing and the image was successfully loaded, but for some reason the script could not cut off the image - they will return `null`
+If upload done successfully, function return instance of model.  
+If an error occurred while loading, function will throw exception.
+  
+Exceptions (`code => text`):  
+`0` - `The file was not downloaded for unknown reasons`  
+`1` - `Forbidden file format`  
+`2` - `File size limit exceeded`
 
-### Get image url by size
-If you use ability to create image size variations, you can get needed images size on the website by next function:  
-`API::getImageBySize($url, $size[, $check = true]);`  
-If the `check` is set to `true`, the function will check the existence of the image on the server, and if the image size is not exist, return the path to the original image.
+### Get files by ids
 
-```php
-use ClassicO\NovaMediaLibrary\API;
+In your model stores only id of file(s). To get files, use the API class method:
 
-API::getImageBySize('http://site.com/storage/googlelogo-272x92dp-1565530871-XU2Zv.png', 'thumb');
+```
+$files = API::getFiles($ids, $imgSize = null, $object = false);
+
+# First parameter - id or array of ids
+# Second - if you want to get images by size variation, write label of size
+# Third - by default function return array of urls. If you want to get full data of files - set true (returns object / array of objects)
+```
+
+### Private files
+
+When you use local storage or s3 (with private visibility), you can't get files by url.    
+To get file, you need to create a GET Route with the name `nml-private-file` with parameter `id` and optional `img_size`. In controller add validation user access.    
+If access is allowed, you can get file by API method:
+
+```
+... Verifying access
+
+$file = API::getFiles($id, null, true);
+return API::getPrivateFile($file->path, request('img_size'))
 ```
 
 ### Localization
 
-To translate this tool another language, you need to add the translation file `/resources/lang/vendor/nova-media-library/{lang}/messages.php` by adding phrases from [message.php](https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en/messages.php)
+To translate this tool another language, you need to add the translation file `/resources/lang/vendor/nova-media-library/{lang}.json` by adding phrases from [en.json](https://github.com/classic-o/nova-media-library/tree/master/resources/lang/en.json)
 
 ### Screenshots
 
 ![Media Library](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_1.png)
 
-![Details](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_2.png)
+![Media Library](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_2.png)
 
-![Single image](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_3.png)
+![Details](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_3.png)
 
-![Listing](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_4.png)
+![Crop Image](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_4.png)
 
-![Gallery](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_5.png)
+![Index Field](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_5.png)
 
-![Gallery Index](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_6.png)
+![Form Field](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/screenshot_6.png)
 
 ![Record](https://raw.githubusercontent.com/classic-o/nova-media-library/master/docs/record.gif)

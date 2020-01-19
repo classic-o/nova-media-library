@@ -1,33 +1,46 @@
 <template>
   <div>
 
-    <div class="max-w-xs">
+    <div class="card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs"
+         v-if="!item && isForm"
+         @click="popup = true">
+      {{ __('Select File') }}
+    </div>
 
-      <div v-if="!url" class="card border border-lg border-50 max-w-xs p-8 text-center">
-        {{ __("nml_no_file_selected") }}
+    <a v-else-if="item" :href="item.url" target="_blank" class="no-underline">
+      <img class="block rounded-lg shadow-md max-w-xs"
+           v-if="`image` === mime(item)"
+           :src="item.preview || item.url"
+           :alt="__('This file could not be found')" />
+
+      <div class="nml-display-list" v-else>
+        <div class="nml-item relative mb-2 cursor-pointer" :title="item.title || item.name">
+
+          <div :class="'icon rounded-lg shadow-md nml-icon-'+mime(item)" :style="bg(item)" />
+
+          <div class="title truncate" v-text="item.title || item.name" />
+
+        </div>
       </div>
 
-      <a v-else :href="url" target="_blank">
-        <img v-if="isImage(url)" :src="url" class="block w-full rounded-lg" alt="This file could not be found">
-        <div v-else class="no-image-file nml-icon-file field shadow-md card" :title="url"></div>
-      </a>
-
-    </div>
+    </a>
 
 
-    <div class="mt-4" v-if="isForm">
+    <div class="mt-4" v-if="isForm && item">
       <a class="cursor-pointer dim inline-block text-primary font-bold" @click="popup = true">
-        {{ __("nml_open_library") }}
+        {{ __('Media Library') }}
       </a>
 
-      <a class="cursor-pointer dim inline-block text-danger font-bold ml-8" @click="changeFile(null)" v-if="url">
-        {{ __("nml_clear") }}
+      <a class="cursor-pointer dim inline-block text-danger font-bold ml-8" @click="changeFile(null)">
+        {{ __('Clear') }}
       </a>
-
-      <transition name="fade">
-        <Library v-if="popup" :field="field" />
-      </transition>
     </div>
+
+
+    <transition name="fade" mode="out-in">
+      <Library v-if="popup" :field="field" />
+    </transition>
+
 
   </div>
 </template>

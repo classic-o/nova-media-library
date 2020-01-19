@@ -1,5 +1,21 @@
 ## Changelog
 
+### [1.0.0] - 2020-01-19
+Rewritten backend. Added new features.
+
+### Changed
+- Configuration file and database migration
+- Changed translation file from *.php to *.json format
+
+#### Added
+- Ability to control files visibility
+- Organize files in manageable folders
+- Display type `list` in the tool
+- Preview images in tool and fields 
+
+#### Fixed
+- Some bugs
+
 ### [0.5.3] - 2019-11-02
 #### Fixed
 - Bug with checkbox in Nova 2.6.0

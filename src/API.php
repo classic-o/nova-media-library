@@ -4,70 +4,126 @@ namespace ClassicO\NovaMediaLibrary;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use ClassicO\NovaMediaLibrary\Core\Upload;
-use ClassicO\NovaMediaLibrary\Core\Helper;
-use ClassicO\NovaMediaLibrary\Core\ImageSizes;
+use ClassicO\NovaMediaLibrary\Core\{
+	Crop,
+	Helper,
+	Model,
+	Upload
+};
 
 class API {
 
 	/**
-	 * Upload image by path\url
+	 * Upload file by path\url
 	 *
-	 * @param $path
-	 * @return bool
+	 * @param string $path - path|url of file
+	 * @param string|null $folder - where store file if use `store` = 'folders'
+	 * @throws \Exception
+	 * @return true
 	 */
-	static function upload($path)
+	static function upload($path, $folder = null)
 	{
 		try {
 			$base = basename(parse_url(($path), PHP_URL_PATH));
 			$content = file_get_contents($path);
 			Storage::disk('local')->put('nml_temp/' . $base, $content);
 
-			$file = new UploadedFile( storage_path('app/nml_temp/' . $base), $base );
-			if ( !$file ) return __('nova-media-library::messages.not_uploaded');
+			$file = new UploadedFile(storage_path('app/nml_temp/' . $base), $base);
+			if ( !$file ) throw new \Exception(__('The file was not downloaded for unknown reasons'), 0);
 
 			$upload = new Upload($file);
 
-			$upload->setType();
-			if ( !$upload->type ) return __('nova-media-library::messages.forbidden_file_format');
+			if ( !$upload->setType() ) throw new \Exception(__('Forbidden file format'), 1);
 
-			$upload->setName($file->getClientOriginalName());
+			$upload->setWH();
+
+			$upload->setFolder($folder);
+
+			$upload->setPrivate();
 
 			$upload->setFile();
 
-			if ( !$upload->checkSize() ) return __('nova-media-library::messages.size_limit_exceeded');
+			if ( !$upload->checkSize() ) throw new \Exception(__('File size limit exceeded'), 2);
 
-			if ( $upload->save() ) {
-				ImageSizes::make($upload->path, $upload->type);
-				if ( $upload->noResize ) {
-					return __('nova-media-library::messages.unsupported_resize', [ 'file' => $file->getClientOriginalName() ]);
-				}
-				return true;
+			$item = $upload->save();
+
+			if ( $item ) {
+				Crop::createSizes($item);
+				return $item;
 			}
 
-			return __('nova-media-library::messages.not_uploaded');
-		} catch (\Exception $e) {
-			return __($e->getMessage());
+			throw new \Exception(__('The file was not downloaded for unknown reasons'), 0);
 		} finally {
-			Storage::disk('local')->deleteDirectory('nml_temp');
+			Storage::disk('local')->delete('nml_temp/' . $base);
 		}
 	}
 
 	/**
-	 * Returns image url of the given size.
+	 * Returns files by ids
 	 *
-	 * @param string $url - full url of the source image
-	 * @param string $size - label from config `media-library.image_sizes.labels`
-	 * @param bool $check - if true, checks the image path and, if it does not exist, returns original url.
+	 * @param int|array $ids - id or array of ids
+	 * @param string|null $imgSize - label from config `media-library.resize.sizes`
+	 * @param bool $object - returns full object of files data from DB (by default returns only urls)
+	 * @return mixed
+	 */
+	static function getFiles($ids, $imgSize = null, $object = false)
+	{
+		$items = Model::find(is_array($ids) ? $ids : [$ids]);
+
+		if ( !$items )
+			return is_array($ids) ? [] : null;
+
+		$array = $items->map(function ($item) use ($imgSize, $object) {
+			$item = $item->toArray();
+
+			if ( !$item['url'] and !$object ) return false;
+
+			if ( $imgSize and in_array($imgSize, data_get($item, 'options.img_sizes', [])) )
+				$item['url'] = self::getImageSize($item['url'], $imgSize);
+
+			return $object ? (object)$item : $item['url'];
+		})->reject(function ($value) {
+			return !$value;
+		});
+
+		return is_array($ids) ? $array : ($array[0] ?? 1);
+	}
+
+	/**
+	 * Generate image url for needed size
+	 *
+	 * @param string $url - image url
+	 * @param string $size - image size from `media-library.resize.sizes`
 	 * @return string
 	 */
-	static function getImageBySize($url, $size, $check = true)
+	static function getImageSize($url, $size)
 	{
-		$new_url = Helper::parseSize($url, $size);
-		if ( !$check ) return $new_url;
+		$name = explode('.', $url);
+		array_pop($name);
+		return implode('.', $name) .'-'. $size .'.'. pathinfo($url, PATHINFO_EXTENSION);
+	}
 
-		$path = str_replace(config('media-library.url', ''), '', $new_url);
-		return Helper::storage()->exists($path) ? $new_url : $url;
+	/**
+	 * Return file content
+	 * Must be used after checking user access in the controller
+	 *
+	 * @param string $path - data from DB ($item->path)
+	 * @param string|null $size - image size from `media-library.resize.sizes`
+	 * @return mixed
+	 */
+	static function getPrivateFile($path, $size = null)
+	{
+		try {
+			if ( $size ) $path = self::getImageSize($path, $size);
+			$file = Helper::storage()->get($path);
+			$name = explode('/', $path);
+
+			return response($file)
+				->header('Content-Type', Helper::storage()->mimeType($path))
+				->header('Content-Disposition', 'filename="'. array_pop($name) .'"');
+		} catch (\Exception $e) {
+			return response()->noContent(404);
+		}
 	}
 
 }

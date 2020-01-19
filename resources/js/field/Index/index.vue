@@ -1,15 +1,19 @@
 <template>
-    <div class="nml-field-index">
+  <div class="nml-field-index nml-item">
 
-      <template v-if="!url">—</template>
+    <template v-if="!item">—</template>
 
-      <template v-else>
-        <a :href="url" target="_blank" class="block card shadow-md nml-icon-file relative" :style="setBg(url)">
-          <div v-if="count > 1" class="count">{{ count }}</div>
-        </a>
-      </template>
+    <template v-else>
+      <a :href="item.url"
+         target="_blank"
+         :class="`block icon shadow-md relative nml-icon-`+mime(item)">
 
-    </div>
+        <div v-if="count > 1" class="count">{{ count }}</div>
+
+      </a>
+    </template>
+
+  </div>
 </template>
 
 <script src="./script.js"></script>
