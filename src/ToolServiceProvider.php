@@ -21,6 +21,7 @@ class ToolServiceProvider extends ServiceProvider
 
 	    $this->publishes([
 		    __DIR__.'/../config/' => config_path(),
+		    __DIR__.'/../database/' => base_path('/database/migrations'),
 		    __DIR__.'/../resources/lang' => resource_path('lang/vendor/nova-media-library'),
 	    ], 'config-nml');
 
