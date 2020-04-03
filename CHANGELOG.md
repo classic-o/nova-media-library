@@ -1,5 +1,17 @@
 ## Changelog
 
+### [1.0.3] - 2020-04-03
+#### Fixed
+- Database migration bug
+
+### [1.0.2] - 2020-03-18
+#### Fixed
+- Database migration code in tool
+
+### [1.0.1] - 2020-02-09
+#### Fixed
+- Image icon in list mode
+
 ### [1.0.0] - 2020-01-19
 Rewritten backend. Added new features.
 
