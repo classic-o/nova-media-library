@@ -7,9 +7,19 @@ export default {
     } else {
       all = types;
     }
+
+    let all_categories = null;
+    let categories = this.$parent.field ? (this.$parent.$props.categories || []) : [];
+    if ( !categories.length ) {
+      categories = this.$parent.config.categories;
+    } else {
+      all_categories = categories;
+    }
     return {
       all,
-      types
+      all_categories,
+      types,
+      categories
     }
   },
   methods: {
@@ -24,5 +34,6 @@ export default {
   },
   created() {
     this.$parent.filter.type = this.all;
+    this.$parent.filter.category = this.all;
   }
 }

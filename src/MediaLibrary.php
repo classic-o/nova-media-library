@@ -119,6 +119,19 @@ class MediaLibrary extends Field
 		]);
 	}
 
+    /**
+     * Limit display by category
+     *
+     * @param string $category
+     * @return $this
+     */
+    public function category($category = null)
+    {
+        return $this->withMeta([
+            'nmlCategory' => $category
+        ]);
+    }
+
 	/**
 	 * Snap media field to Trix editor
 	 * To connect media field to trix editor, set here unique name

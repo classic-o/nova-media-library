@@ -24,7 +24,7 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 
 	protected $table = 'nova_media_library';
 
-	protected $fillable = ['id', 'title', 'created', 'type', 'folder', 'name', 'private', 'lp', 'options'];
+	protected $fillable = ['id', 'category_id', 'title', 'created', 'type', 'folder', 'name', 'private', 'lp', 'options'];
 
 	protected $appends = ['url', 'path'];
 
@@ -63,6 +63,10 @@ class Model extends \Illuminate\Database\Eloquent\Model {
 			->where(function($query) use ($folder) {
 				if ( $folder )
 					$query->where('folder', $folder);
+			})
+			->where(function($query) use ($param) {
+				if ( $param['category'] )
+					$query->where('category_id', $param['category']);
 			})
 			->where(function($query) use ($param) {
 				if ( is_array($param['type']) and $param['type'] )

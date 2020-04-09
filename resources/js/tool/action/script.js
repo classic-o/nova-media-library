@@ -39,10 +39,15 @@ export default {
       });
     },
     uploadCheck() {
+      let self = this;
       this.$parent.loading = false;
       this.$toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
       this.$parent.clearData();
-      this.$parent.get();
+      return this.$parent.get().then((items) => {
+        if(items && items.length > 0) {
+          return self.$parent.showPopup(items[0]);
+        }
+      });
     },
 
     changeBulk() {

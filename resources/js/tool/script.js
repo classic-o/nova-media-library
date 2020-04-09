@@ -42,6 +42,7 @@ export default {
 
       filter: {
         title: null,
+        category: null,
         type: this.types,
         from: null,
         to: null,
@@ -66,12 +67,13 @@ export default {
     },
     get() {
       this.loading = true;
-      Nova.request().post('/nova-vendor/nova-media-library/get', this.filter).then(r => {
+      return Nova.request().post('/nova-vendor/nova-media-library/get', this.filter).then(r => {
         this.loading = false;
         this.items = {
           array: this.items.array.concat(r.data.array),
           total: r.data.total
         };
+        return r.data.array;
       }).catch(e => {
         this.loading = false;
         window.nmlToastHook(e);
@@ -111,6 +113,12 @@ export default {
         if ( (window.innerHeight + window.scrollY) >= document.body.offsetHeight ) this.loader();
       } catch (e) {}
     },
+    showPopup(item) {
+      if(item) {
+        this.item = item;
+        this.popup = 'info';
+      }
+    }
   },
   created() {
     if ( 'onwheel' in document )      wheel = 'wheel';

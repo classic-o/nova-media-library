@@ -10,7 +10,7 @@ use ClassicO\NovaMediaLibrary\Http\Requests\{
 	UploadFr,
 	UpdateFr,
 	FolderNewFr,
-	FolderDelFr,
+	FolderDelFr
 };
 use ClassicO\NovaMediaLibrary\Core\{
 	Crop,
@@ -116,6 +116,7 @@ class Tool {
 		if ( !$item ) abort(422, __('Invalid id'));
 
 		$item->title = request('title');
+		$item->category_id = request('category_id', null);
 		$img_sizes = data_get($item->options, 'img_sizes', []);
 
 		if ( request()->has('private') and 's3' === config('nova-media-library.disk') ) {

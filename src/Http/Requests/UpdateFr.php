@@ -19,7 +19,8 @@ class UpdateFr extends FormRequest
 		return [
 			'id' => 'required|numeric',
 			'title' => 'required|string|max:250',
-			'private' => 'boolean'
+			'private' => 'boolean',
+			'category_id' => 'sometimes'
 		];
 	}
 

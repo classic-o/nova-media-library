@@ -27,7 +27,7 @@ export default {
     update() {
       let cp = this.$parent.config.can_private;
       this.$parent.loading = true;
-      let data = { id: this.$parent.item.id, title: this.$parent.item.title, folder: this.folder };
+      let data = { id: this.$parent.item.id, title: this.$parent.item.title, category_id: this.$parent.item.category_id,  folder: this.folder };
       if ( cp ) data.private = Boolean(this.$parent.item.private);
 
       Nova.request().post('/nova-vendor/nova-media-library/update', data).then(r => {

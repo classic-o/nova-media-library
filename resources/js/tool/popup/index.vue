@@ -22,6 +22,23 @@
       </div>
 
       <div class="flex border-b border-40">
+        <div class="w-1/4 py-4 font-bold text-80">{{ __('Category') }}</div>
+        <div class="w-3/4 py-4">
+          <select
+                  class="shadow-md block border-0 cursor-pointer form-control form-select w-full"
+                  v-model="$parent.item.category_id"
+          >
+            <option
+                    v-for="key in $parent.config.categories"
+                    :value="key.id"
+                    :key="key.id">
+              {{ key.title }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex border-b border-40">
         <div class="w-1/4 py-4 font-bold text-80">{{ __('Size') }}</div>
         <div class="w-3/4 py-4">{{ $parent.item.options.size }}</div>
       </div>

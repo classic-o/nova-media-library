@@ -41,11 +41,11 @@
       </svg>
     </div>
 
-    <select class="shadow-md block border-0 cursor-pointer form-control form-select"
+    <select class="shadow-md block border-0 cursor-pointer form-control form-select mr-4"
             v-if="types.length > 1"
             v-model="$parent.filter.type"
             @change="$parent.doSearch()">
-      <option :value="all">All Types</option>
+      <option :value="all">{{ __("All Types") }}</option>
       <option
         v-for="key in types"
         :value="[key]"
@@ -55,7 +55,19 @@
     </select>
 
 
-
+    <select
+            class="shadow-md block border-0 cursor-pointer form-control form-select"
+            v-model="$parent.filter.category"
+            @change="$parent.doSearch()"
+    >
+      <option :value="null">{{ __("All Categories") }}</option>
+      <option
+              v-for="key in categories"
+              :value="key.id"
+              :key="key.id">
+        {{ key.title }}
+      </option>
+    </select>
   </div>
 </template>
 

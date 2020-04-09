@@ -2,6 +2,7 @@
 
 namespace ClassicO\NovaMediaLibrary;
 
+use ClassicO\NovaMediaLibrary\Core\CategoryModel;
 use ClassicO\NovaMediaLibrary\Core\Helper;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Nova;
@@ -67,6 +68,7 @@ class NovaMediaLibrary extends Tool
 
 		    $config['accept'] = preg_filter('/^/', '.', $accept);
 		    $config['types'] = array_keys($types);
+		    $config['categories'] = CategoryModel::all();
 	    }
 
 	    return $config;

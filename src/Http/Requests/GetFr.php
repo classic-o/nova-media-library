@@ -18,6 +18,7 @@ class GetFr extends FormRequest
 	{
 		return [
 			'title' => 'nullable|string',
+			'category_id' => 'nullable',
 			'from' => 'nullable|date_format:Y-m-d',
 			'to' => 'nullable|date_format:Y-m-d',
 			'page' => 'required|integer|min:0'
