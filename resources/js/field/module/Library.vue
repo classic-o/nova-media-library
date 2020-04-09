@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Library from '../../tool/'
+import Library from '../../tool/Index'
 
 export default {
   props: ['field'],
