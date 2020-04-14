@@ -23,6 +23,7 @@ class ToolServiceProvider extends ServiceProvider
 		    __DIR__.'/../config/' => config_path(),
 		    __DIR__.'/../database/' => base_path('/database/migrations'),
 		    __DIR__.'/../resources/lang' => resource_path('lang/vendor/nova-media-library'),
+		    __DIR__.'/NovaResources/' => base_path('/app/Nova'),
 	    ], 'config-nml');
 
         $this->app->booted(function () {

@@ -4,3 +4,10 @@
     </svg>
     <span class="sidebar-label">{{ __('Media Library') }}</span>
 </router-link>
+<ul class="list-reset mb-8">
+    <li class="leading-tight mb-4 ml-8 text-sm">
+        <router-link to="/resources/media-categories" class="text-white text-justify no-underline dim">
+            {{ __('Manage Categories') }}
+        </router-link>
+    </li>
+</ul>
