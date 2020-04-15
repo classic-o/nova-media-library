@@ -59,8 +59,7 @@ class MediaCategories extends Resource
                 ->rules('required'),
 
             Text::make('Description')
-                ->sortable()
-                ->rules('required'),
+                ->sortable(),
         ];
     }
 
