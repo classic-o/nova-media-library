@@ -6,7 +6,7 @@
 
       <button type="button" class="nml-close select-none" @click="$parent.popup = null">&times;</button>
 
-      <Library :field="field.attribute" :isArray="field.nmlArray" :types="types" />
+      <Library :field="field.attribute" :isArray="field.nmlArray" :types="types" :categories="categories" />
 
     </div>
 
@@ -21,7 +21,8 @@ export default {
   components: { Library },
   data() {
     return {
-      types: Array.isArray(this.field.nmlTypes) ? this.field.nmlTypes : []
+      types: Array.isArray(this.field.nmlTypes) ? this.field.nmlTypes : [],
+      categories: Array.isArray(this.field.nmlCategory) ? this.field.nmlCategory : []
     }
   },
   mounted() {

@@ -34,6 +34,6 @@ export default {
   },
   created() {
     this.$parent.filter.type = this.all;
-    this.$parent.filter.category = this.all;
+    this.$parent.filter.category = this.all_categories;
   }
 }
