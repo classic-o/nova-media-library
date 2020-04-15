@@ -4,6 +4,7 @@ import Items  from './items'
 import Loader from './loader'
 import Popup from './popup'
 import Crop from './crop'
+import Uploader from './uploader'
 
 let timeout = null;
 let wheel = null;
@@ -12,7 +13,8 @@ export default {
   props: {
     field: { type: String, default: null },
     isArray: { default: false },
-    types: { type: Array, default: [] },
+    types: { type: Array, default: () => [] },
+    categories: { type: Array, default: () => [] },
   },
 
   components: {
@@ -22,6 +24,7 @@ export default {
     Loader,
     Crop,
     Popup,
+    Uploader
   },
 
   data() {
@@ -53,7 +56,8 @@ export default {
 
       loading: false,
       item: null,
-      popup: null
+      popup: null,
+      show_uploader: false,
     }
   },
 
@@ -64,6 +68,8 @@ export default {
     clearData() {
       this.items = { array: [], total: null };
       this.filter.page = 0;
+      this.popup = null;
+      this.show_uploader = false;
     },
     get() {
       this.loading = true;

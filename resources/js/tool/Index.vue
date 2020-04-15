@@ -16,6 +16,10 @@
     </transition>
 
     <transition name="fade" mode="out-in">
+      <Uploader v-if="'uploader' === popup" />
+    </transition>
+
+    <transition name="fade" mode="out-in">
       <Crop v-if="item && 'crop' === popup" />
     </transition>
 

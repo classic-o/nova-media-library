@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 class Upload {
 
 	var $title;
+	var $category_id = null;
 	var $folder;
 	var $name;
 	var $type = false;
@@ -94,6 +95,10 @@ class Upload {
 		}
 	}
 
+	function setCategory($category_id) {
+	    $this->category_id = $category_id;
+    }
+
 	function checkSize()
 	{
 		$size = data_get($this->config, 'max_size.'.$this->type);
@@ -112,16 +117,22 @@ class Upload {
 				Helper::visibility($this->private)
 			)
 		) {
-			return Model::create([
-				'title' => $this->title,
-				'created' => now(),
-				'type' => $this->type,
-				'folder' => $this->folder,
-				'name' => $this->name,
-				'private' => $this->private,
-				'lp' => $this->lp,
-				'options' => $this->options
-			]);
+		    $values = [
+                'title' => $this->title,
+                'created' => now(),
+                'type' => $this->type,
+                'folder' => $this->folder,
+                'name' => $this->name,
+                'private' => $this->private,
+                'lp' => $this->lp,
+                'options' => $this->options
+            ];
+
+		    if($this->category_id) {
+		        $values['category_id'] = $this->category_id;
+            }
+
+			return Model::create($values);
 		}
 		return false;
 	}

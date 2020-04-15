@@ -30,15 +30,9 @@
       </button>
     </template>
 
-    <label class="btn-default bg-90 text-white text-center cursor-pointer shadow-md max-w-full ml-auto">
-      <input
-        id="nml_upload"
-        class="form-file-input"
-        type="file"
-        multiple
-        :accept="$parent.config.accept"
-        @change="selectFiles"
-      />
+    <label class="btn-default bg-90 text-white text-center cursor-pointer shadow-md max-w-full ml-auto"
+           @click="showUploader"
+    >
       {{ __('Upload') }}
     </label>
 

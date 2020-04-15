@@ -1,53 +1,13 @@
 export default {
   data() {
     return {
-      files: [],
-      upload: {}
+      files: []
     }
   },
   methods: {
-    clearUpload(length = 0) {
-      this.upload = { total: length, done: 0 }
-    },
-    selectFiles(input) {
-      if ( !input.target.files.length ) return;
-      this.$parent.loading = true;
-      this.clearUpload(input.target.files.length);
-
-      this.files = Object.assign({}, input.target.files);
-      this.uploadFile(0);
-
-      document.getElementById('nml_upload').value = null;
-    },
-    uploadFile(i) {
-      let file = this.files[i];
-      if ( !file ) return this.uploadCheck();
-
-      let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      let data = new FormData();
-      data.append('file', file);
-      data.append('folder', this.$parent.filter.folder);
-
-      Nova.request().post('/nova-vendor/nova-media-library/upload', data, config).then(r => {
-        this.upload.done++;
-        this.$toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
-        this.uploadFile(i+1);
-        if ( r.data.message ) this.$toasted.show(r.data.message, { type: 'success' });
-      }).catch(e => {
-        this.uploadFile(i+1);
-        window.nmlToastHook(e);
-      });
-    },
-    uploadCheck() {
-      let self = this;
-      this.$parent.loading = false;
-      this.$toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
-      this.$parent.clearData();
-      return this.$parent.get().then((items) => {
-        if(items && items.length > 0) {
-          return self.$parent.showPopup(items[0]);
-        }
-      });
+    showUploader() {
+      this.$parent.show_uploader = true;
+      this.$parent.popup = 'uploader';
     },
 
     changeBulk() {

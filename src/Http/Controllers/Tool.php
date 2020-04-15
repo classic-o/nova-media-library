@@ -64,9 +64,11 @@ class Tool {
 
 		$upload->setWH();
 
-		$upload->setFolder(request('folder'));
+		$upload->setFolder(request('folder', null));
 
 		$upload->setPrivate();
+
+		$upload->setCategory(request('category_id', null));
 
 		$upload->setFile();
 

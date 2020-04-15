@@ -28,6 +28,7 @@
                   class="shadow-md block border-0 cursor-pointer form-control form-select w-full"
                   v-model="$parent.item.category_id"
           >
+            <option :value="null">{{ __('Choose category') }}</option>
             <option
                     v-for="key in $parent.config.categories"
                     :value="key.id"
