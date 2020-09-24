@@ -1,5 +1,9 @@
 ## Changelog
 
+### [1.0.4] - 2020-09-24
+#### Fixed
+- slow loading folder structure
+
 ### [1.0.3] - 2020-04-03
 #### Fixed
 - Database migration bug
