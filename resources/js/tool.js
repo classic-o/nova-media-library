@@ -18,11 +18,15 @@ Nova.booting((Vue, router, store) => {
 });
 
 
-if (
-  'object' === typeof Nova.config.novaMediaLibrary &&
-  'object' === typeof Nova.config.novaMediaLibrary.lang
-) {
-  Object.assign(Nova.config.translations, Nova.config.novaMediaLibrary.lang)
+if ('object' === typeof Nova.config.novaMediaLibrary) {
+  if (Nova.config.novaMediaLibrary.store === 'folders') {
+    Nova.request().get('/nova-vendor/nova-media-library/folders').then(r => {
+      Object.assign(Nova.config.novaMediaLibrary, { folders: r.data })
+    })
+  }
+  if ('object' === typeof Nova.config.novaMediaLibrary.lang) {
+    Object.assign(Nova.config.translations, Nova.config.novaMediaLibrary.lang)
+  }
 }
 
 //document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');

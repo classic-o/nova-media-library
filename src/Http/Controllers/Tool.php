@@ -187,5 +187,8 @@ class Tool {
 		abort(422, __('Cannot manage folders'));
 	}
 
-
+    function folders()
+    {
+        return Helper::directories();
+    }
 }
