@@ -134,7 +134,6 @@ class API {
                 ->header('Content-Range', "bytes $start-$end/$bytes")
                 ->header('Content-Disposition', 'filename="'. array_pop($name) .'"');
 		} catch (\Exception $e) {
-		    return $e->getMessage();
 			return response()->noContent(404);
 		}
 	}
