@@ -117,11 +117,24 @@ class API {
 			if ( $size ) $path = self::getImageSize($path, $size);
 			$file = Helper::storage()->get($path);
 			$name = explode('/', $path);
+			$bytes = Helper::storage()->size($path);
+			$length = $bytes;
+			$end = $bytes - 1;
+			$start = 0;
+            if (isset($_SERVER['HTTP_RANGE'])) {
+                $temp = explode('bytes=', $_SERVER['HTTP_RANGE'], 2);
+                $start = (float)(explode('-', $temp[1], 1))[0];
+                $length = $bytes - $start;
+            }
 
 			return response($file)
 				->header('Content-Type', Helper::storage()->mimeType($path))
-				->header('Content-Disposition', 'filename="'. array_pop($name) .'"');
+                ->header('Accept-Ranges', 'bytes')
+                ->header('Content-Length', $length)
+                ->header('Content-Range', "bytes $start-$end/$bytes")
+                ->header('Content-Disposition', 'filename="'. array_pop($name) .'"');
 		} catch (\Exception $e) {
+		    return $e->getMessage();
 			return response()->noContent(404);
 		}
 	}
