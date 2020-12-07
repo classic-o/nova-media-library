@@ -10,7 +10,7 @@ use ClassicO\NovaMediaLibrary\Http\Requests\{
 	UploadFr,
 	UpdateFr,
 	FolderNewFr,
-	FolderDelFr,
+	FolderDelFr
 };
 use ClassicO\NovaMediaLibrary\Core\{
 	Crop,
