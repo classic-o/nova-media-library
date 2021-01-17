@@ -17,7 +17,7 @@ class Helper {
 		$len = strlen(substr(self::folder(), 1));
 		$array = [];
 
-		foreach (self::storage()->allDirectories() as $item) {
+		foreach (self::storage()->allDirectories(config('nova-media-library.folder')) as $item) {
 			if ( 'nml_temp' == $item ) continue;
 			$path = str_replace('/', '.', substr($item, $len));
 			if ( $path ) data_set($array, $path, 0);
