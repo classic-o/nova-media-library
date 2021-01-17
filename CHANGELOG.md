@@ -1,8 +1,12 @@
 ## Changelog
 
+### [1.0.6] - 2021-01-17
+#### Fixed
+- bug with incorrect display folders
+
 ### [1.0.5] - 2020-12-01
 #### Fixed
-- file range while streaming private file 
+- file range while streaming private file
 
 ### [1.0.4] - 2020-09-24
 #### Fixed
@@ -96,3 +100,4 @@ Rewritten backend. Added new features.
 ### [0.1.0] - 2019-03-24
 #### Added
 - Initial tool and field of media library.
+
