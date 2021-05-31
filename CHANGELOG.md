@@ -1,5 +1,9 @@
 ## Changelog
 
+### [1.0.7] - 2021-05-31
+#### Fixed
+- translation
+
 ### [1.0.6] - 2021-01-17
 #### Fixed
 - bug with incorrect display folders
