@@ -63,5 +63,11 @@
 	"Uploaded": "Hochgeladen",
 	"Url": "URL",
 	"URL has been copied": "URL wurde kopiert",
-	"Width x Height": "Breite x Höhe"
+	"Width x Height": "Breite x Höhe",
+
+	"All Types": "Alle Typen",
+	"Image": "Bild",
+	"Docs": "Dokument",
+	"Audio": "Audio",
+	"Video": "Video"
 }

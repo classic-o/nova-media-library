@@ -45,12 +45,12 @@
             v-if="types.length > 1"
             v-model="$parent.filter.type"
             @change="$parent.doSearch()">
-      <option :value="all">All Types</option>
+      <option :value="all">{{ __('All Types') }}</option>
       <option
         v-for="key in types"
         :value="[key]"
         :key="key">
-        {{ key }}
+        {{ __(key) }}
       </option>
     </select>
 
