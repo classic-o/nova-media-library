@@ -25,8 +25,9 @@ class API {
 	{
 		try {
 			$base = basename(parse_url(($path), PHP_URL_PATH));
-			$content = file_get_contents($path);
-			Storage::disk('local')->put('nml_temp/' . $base, $content);
+			$stream = fopen($base, 'r+');
+			Storage::disk('local')->writeStream('nml_temp/' . $base, $stream);
+			fclose($stream);
 
 			$file = new UploadedFile(storage_path('app/nml_temp/' . $base), $base);
 			if ( !$file ) throw new \Exception(__('The file was not downloaded for unknown reasons'), 0);
