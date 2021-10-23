@@ -2,6 +2,7 @@
 
 namespace ClassicO\NovaMediaLibrary\Core;
 
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Str;
 
 class Upload {
@@ -19,6 +20,7 @@ class Upload {
 
 	private $config;
 	private $file;
+    private $stream;
 	private $extension;
 	private $bytes = 0;
 
@@ -50,11 +52,12 @@ class Upload {
 
 	function setWH()
 	{
-		list($width, $height) = getimagesize($this->file);
-
-		if ( $width and $height ) {
-			$this->options['wh'] = [$width, $height];
-		}
+        if ($this->options['mime'] == 'image') {
+            [$width, $height] = getimagesize($this->file);
+            if ($width and $height) {
+                $this->options['wh'] = [$width, $height];
+            }
+        }
 	}
 
 	function setFolder($folder = null)
@@ -108,7 +111,7 @@ class Upload {
 		if (
 			Helper::storage()->put(
 				Helper::folder($this->folder . $this->name),
-				$this->file,
+				$this->stream,
 				Helper::visibility($this->private)
 			)
 		) {
@@ -131,13 +134,13 @@ class Upload {
 	private function byDefault()
 	{
 		$this->bytes = $this->file->getSize();
-		$this->file = file_get_contents($this->file);
+        $this->stream = Utils::streamFor(fopen($this->file, 'r+'));
 	}
 
 	private function byResize()
 	{
 		try {
-			list($width, $height) = getimagesize($this->file);
+            [$width, $height] = getimagesize($this->file);
 			if (
 				!is_numeric($width) or !is_numeric($height) or
 				!$this->resize['upWH'] and
@@ -157,10 +160,12 @@ class Upload {
 			$data = $image->resize($this->resize['width'], $this->resize['height'], function ($constraint) {
 				if ( !$this->resize['width'] or !$this->resize['height'] ) $constraint->aspectRatio();
 				if ( true !== $this->resize['upSize'] ) $constraint->upsize();
-			})->stream(null, data_get($this->config, 'resize.quality'))->__toString();
+			});
 
-			$this->bytes = strlen($data);
-			$this->file = $data;
+            $stream = $data->stream(null, data_get($this->config, 'resize.quality'));
+
+            $this->bytes = $data->filesize();
+            $this->stream = $stream;
 		} catch (\Exception $e) {
 			$this->noResize();
 		}
