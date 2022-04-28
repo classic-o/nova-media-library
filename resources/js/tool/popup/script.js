@@ -22,7 +22,8 @@ export default {
       return array;
     },
     onPrivate(e) {
-      this.$set(this.$parent.item, 'private', e.target.checked)
+      //this.$set(this.$parent.item, 'private', e.target.checked)
+      this.$parent.item['private'] = e.target.checked;
     },
     update() {
       let cp = this.$parent.config.can_private;
@@ -42,7 +43,9 @@ export default {
           let index = this.$parent.items.array.findIndex(x => x.id === r.data.id);
           if ( index > -1 && r.data.id ) {
             r.data.url += '?'+Date.now();
-            this.$set(this.$parent.items.array, index, r.data);
+            //this.$set(this.$parent.items.array, index, r.data);
+            this.$parent.items.array[index] = r.data;
+            this.$parent.items.array[index] = r.data;
           }
         }
       }).catch(e => {

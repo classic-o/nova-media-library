@@ -26,7 +26,8 @@ export default {
         if ( this.$parent.bulk.ids[item.id] ) {
           this.$delete(this.$parent.bulk.ids, item.id);
         } else {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          //this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids[item.id] = item;
         }
       } else {
         if ( this.$parent.field ) {

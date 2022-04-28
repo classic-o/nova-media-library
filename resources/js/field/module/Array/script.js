@@ -19,7 +19,8 @@ export default {
   },
   methods: {
     changeArray(array) {
-      this.$set(this, 'array', array || []);
+      //this.$set(this, 'array', array || []);
+      this['array'] = array || [];
       if ( this.handler ) this.handler(array);
     },
     remove(num) {

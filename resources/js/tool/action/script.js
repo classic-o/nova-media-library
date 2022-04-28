@@ -66,7 +66,7 @@ export default {
       } else {
         this.$parent.items.array.forEach(item => {
           //this.$set(this.$parent.bulk.ids, item.id, item);
-          this.$parent.bulk.ids['item.id'] = item;
+          this.$parent.bulk.ids[item.id] = item;
         });
       }
     },

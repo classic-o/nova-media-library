@@ -83,7 +83,8 @@ export default {
       this.loading = true;
       Nova.request().post('/nova-vendor/nova-media-library/delete', { ids: ids }).then(r => {
         this.popup = null;
-        this.$set(this.bulk, 'ids', {});
+        //this.$set(this.bulk, 'ids', {});
+        this.bulk['ids'] = {};
         this.clearData();
         this.get();
         this.loading = false;

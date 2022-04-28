@@ -19,14 +19,16 @@ export default {
       let parent = this.$parent.$parent;
 
       if ( 'folder' === type ) {
-        this.$set(parent.filter, 'folder', parent.filter.folder + this.label + '/');
+        //this.$set(parent.filter, 'folder', parent.filter.folder + this.label + '/');
+        parent.filter['folder'] = parent.filter.folder + this.label + '/';
         parent.clearData();
         parent.get();
       } else if ( 'back' === type ) {
         let array = parent.filter.folder.split('/');
         array.pop();
         array.pop();
-        this.$set(parent.filter, 'folder', array.join('/') + '/');
+        //this.$set(parent.filter, 'folder', array.join('/') + '/');
+        parent.filter['folder'] = array.join('/') + '/';
         parent.clearData();
         parent.get();
       } else if ( 'remove' === type ) {
@@ -34,7 +36,8 @@ export default {
 
         Nova.request().post('/nova-vendor/nova-media-library/folder/del', { folder: parent.filter.folder }).then(r => {
           if ( r.data.folders )
-            this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
+            //this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
+            this.$parent.$parent.config['folders'] = r.data.folders;
           if ( r.data.message )
             this.$toasted.show(r.data.message, { type: 'success' });
           this.action('back');
@@ -50,7 +53,8 @@ export default {
           folder: folder
         }).then(r => {
           if ( r.data.folders )
-            this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
+            //this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
+            this.$parent.$parent.config['folders'] = r.data.folders;
           if ( r.data.message )
             this.$toasted.show(r.data.message, { type: 'success' });
         }).catch(e => {
