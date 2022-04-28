@@ -1,7 +1,7 @@
-import { copy } from 'v-copy';
+import VueClipboard from 'vue3-clipboard';
 
 export default {
-  directives: { copy },
+  directives: { VueClipboard },
   data() {
     return {
       folder: null

@@ -2,9 +2,11 @@
 
 namespace ClassicO\NovaMediaLibrary;
 
-use ClassicO\NovaMediaLibrary\Core\Helper;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
+use ClassicO\NovaMediaLibrary\Core\Helper;
 
 class NovaMediaLibrary extends Tool
 {
@@ -21,16 +23,12 @@ class NovaMediaLibrary extends Tool
 	    Nova::provideToScript([ 'novaMediaLibrary' => $this->config() ]);
     }
 
-    /**
-     * Build the view that renders the navigation links for the tool.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function renderNavigation()
+    public function menu(Request $request)
     {
-        return view('nova-media-library::navigation');
+        return MenuSection::make('Media')
+            ->path('/nova-media-library')
+            ->icon('server');
     }
-
 
 
     private function config()

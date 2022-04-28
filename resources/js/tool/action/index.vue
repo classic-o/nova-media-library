@@ -4,9 +4,7 @@
     <checkbox-with-label
       class="cursor-pointer mr-4"
       v-if="!$parent.field || $parent.isArray"
-      :checked="$parent.bulk.enable"
       @input="changeBulk"
-      @change="changeBulk"
     >{{ __('Bulk Select') }}</checkbox-with-label>
 
     <button class="btn-default bg-primary text-white cursor-pointer shadow-md max-w-full mr-4"

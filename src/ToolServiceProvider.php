@@ -2,6 +2,7 @@
 
 namespace ClassicO\NovaMediaLibrary;
 
+use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use ClassicO\NovaMediaLibrary\Http\Middleware\Authorize;
@@ -40,6 +41,9 @@ class ToolServiceProvider extends ServiceProvider
         if ($this->app->routesAreCached()) {
             return;
         }
+
+        Nova::router(['nova', Authorize::class], 'nova-media-library')
+            ->group(__DIR__.'/../routes/inertia.php');
 
         Route::middleware(['nova', Authorize::class])
                 ->prefix('nova-vendor/nova-media-library')

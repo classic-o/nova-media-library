@@ -5,6 +5,7 @@ import Loader from './loader'
 import Popup from './popup'
 import Crop from './crop'
 
+
 let timeout = null;
 let wheel = null;
 
@@ -25,7 +26,7 @@ export default {
   },
 
   data() {
-    let config = window.Nova.config.novaMediaLibrary;
+    let config = window.Nova.config('novaMediaLibrary');
     config.display = 'list' === localStorage.getItem('nml-display') ? 'list' : 'gallery';
     return {
       config,
@@ -111,6 +112,11 @@ export default {
         if ( (window.innerHeight + window.scrollY) >= document.body.offsetHeight ) this.loader();
       } catch (e) {}
     },
+
+    changeBulk() {
+      this.bulk.ids = {};
+      this.bulk.enable = !this.bulk.enable;
+    }
   },
   created() {
     if ( 'onwheel' in document )      wheel = 'wheel';

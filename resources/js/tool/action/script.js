@@ -1,10 +1,18 @@
+import Toasted from 'vue-toasted';
+
 export default {
+  emits: ['changebulk'],
+  components: {
+    Toasted
+  },
   data() {
     return {
       files: [],
-      upload: {}
+      upload: {},
+      
     }
   },
+  
   methods: {
     clearUpload(length = 0) {
       this.upload = { total: length, done: 0 }
@@ -46,16 +54,19 @@ export default {
     },
 
     changeBulk() {
-      this.$set(this.$parent.bulk, 'ids', {});
-      this.$parent.bulk.enable = !this.$parent.bulk.enable;
+      this.$emit('changebulk');
+      // this.instance.$parent.bulk['ids'] = {};
+      // this.instance.$parent.bulk.enable = !this.instance.$parent.bulk.enable;
     },
 
     bulkAll() {
       if ( this.$parent.bulkLen() === this.$parent.items.array.length ) {
-        this.$set(this.$parent.bulk, 'ids', {});
+        //this.$set(this.$parent.bulk, 'ids', {});
+        this.$parent.bulk['ids'] = {};
       } else {
         this.$parent.items.array.forEach(item => {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          //this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids['item.id'] = item;
         });
       }
     },

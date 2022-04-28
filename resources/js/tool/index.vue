@@ -3,7 +3,7 @@
 
     <heading class="mb-6">{{ __('Media Library') }}</heading>
 
-    <Action />
+    <Action @changebulk="changeBulk" />
 
     <Search />
 
