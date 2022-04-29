@@ -27,6 +27,7 @@
         "vue": "^3.0",
         "vue-toasted": "^1.1.28",
         "vue3-clipboard": "^1.0.0",
+        "vue3-datepicker": "^0.3.3",
         "vuedraggable": "^4.1.0",
         "vuex": "^4.0.2"
     }

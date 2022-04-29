@@ -11,9 +11,9 @@
 
     <Loader />
 
-    <transition name="fade" mode="out-in">
-      <Popup v-if="item && 'info' === popup" />
-    </transition>
+    
+      <Popup v-if="this.item && 'info' === this.popup" />
+    
 
     <transition name="fade" mode="out-in">
       <Crop v-if="item && 'crop' === popup" />

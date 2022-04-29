@@ -12,24 +12,24 @@
       />
     </div>
 
-    <date-time-picker
-      class="form-control form-input shadow-md max-w-full mr-4"
-      autocomplete="off"
-      :placeholder="__('Upload From')"
-      dateFormat="Y-m-d"
-      :firstDayOfWeek="1"
-      :enable-time="false"
-      @change="val => updateDate(val, 'from')"
+    <datepicker
+      class="form-control shadow-md max-w-full mr-4"
+      :placeholder="uploadFromText"
+      ref="uploadFrom"
+      v-model="uploadFrom"
+      inputFormat= "yyyy-MM-dd"
+      :weekStartsOn= "1"
+      @change="updateDate(this.$refs.uploadFrom.input, 'from')"
     />
 
-    <date-time-picker
-      class="form-control form-input shadow-md max-w-full"
-      autocomplete="off"
-      :placeholder="__('Upload To')"
-      dateFormat="Y-m-d"
-      :firstDayOfWeek="1"
-      :enable-time="false"
-      @change="val => updateDate(val, 'to')"
+    <datepicker
+      class="form-control shadow-md max-w-full"
+      :placeholder="uploadToText"
+      ref="uploadTo"
+      v-model="uploadTo"
+      inputFormat= "yyyy-MM-dd"
+      :weekStartsOn= "1"
+      @change="updateDate(this.$refs.uploadTo.input, 'to')"
     />
 
     <div :title="__('Change Display Type')" class="nml-display bg-white shadow-md rounded-lg cursor-pointer ml-auto mr-4 active:shadow-outline">

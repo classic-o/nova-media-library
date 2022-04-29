@@ -1,5 +1,6 @@
 <template>
   <div :class="'flex flex-wrap nml-display-'+$parent.config.display">
+    
 
     <template v-if="'folders' === this.$parent.config.store">
       <template v-if="'/' !== folder">

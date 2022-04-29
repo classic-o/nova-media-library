@@ -1,6 +1,6 @@
 <template>
-  <default-field :field="field" :errors="errors" :fullWidthContent="true">
-    <template slot="field">
+  <DefaultField @click="display()" :field="field" :errors="errors" :show-help-text="showHelpText" :fullWidthContent="true">
+    <template #field>
       <div class="nml-field-form">
 
         <span class="cursor-pointer dim inline-block text-primary font-bold pt-2 leading-tight"
@@ -17,7 +17,7 @@
 
       </div>
     </template>
-  </default-field>
+  </DefaultField>
 </template>
 
 <script src="./script.js"></script>

@@ -16,6 +16,9 @@ export default {
     }
   },
   methods: {
+    display() {
+      console.log(this.field.nmlTrix);
+    },
     setInitialValue() {
       this.value = this.field.value || null
     },

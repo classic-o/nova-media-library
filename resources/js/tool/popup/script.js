@@ -4,7 +4,8 @@ export default {
   directives: { VueClipboard },
   data() {
     return {
-      folder: null
+      folder: null,
+      //item: {"id":49,"title":"Screenshot 2022-04-22 020515","created":"2022-04-29T12:15:18.000000Z","type":"Image","folder":"/","name":"screenshot-2022-04-22-020515-1651234518oNnbq.png","private":0,"lp":0,"options":{"mime":"image","wh":[986,267],"size":"27.49 kb","img_sizes":["thumb","medium"]},"preview":"http://127.0.0.1:8000/storage/screenshot-2022-04-22-020515-1651234518oNnbq-thumb.png","url":"http://127.0.0.1:8000/storage/screenshot-2022-04-22-020515-1651234518oNnbq.png","path":"/screenshot-2022-04-22-020515-1651234518oNnbq.png"}
     }
   },
   computed: {

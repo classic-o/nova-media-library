@@ -1,8 +1,11 @@
+
 Nova.booting((Vue) => {
   Vue.component("index-media-library-field", require("./field/Index/").default);
   Vue.component("detail-media-library-field", require("./field/Detail/").default);
   Vue.component("form-media-library-field", require("./field/Form/").default);
   Nova.inertia("NovaMediaLibrary", require("./tool/").default);
+  
+  
 
   window.nmlToastHook = (e) => {
     if (422 === e.response.status && e.response.data.message)
