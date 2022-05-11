@@ -69,18 +69,18 @@
       </div>
 
       <div class="flex mt-6">
-        <button type="button" class="btn-default btn-primary cursor-pointer mr-6 shadow-md"
+        <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded btn-primary cursor-pointer mr-6 shadow-md"
                 @click="update">
           {{ __('Update') }}
         </button>
 
-        <button type="button" class="btn-default bg-success text-black cursor-pointer mr-6 shadow-md"
+        <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded bg-success text-black cursor-pointer mr-6 shadow-md"
                 @click="$parent.$parent.popup = 'crop'"
                 v-if="$parent.$parent.config.front_crop && 'image' === $parent.$parent.item.options.mime">
           {{ __('Edit Image') }}
         </button>
 
-        <button type="button" class="btn-default btn-danger cursor-pointer ml-auto shadow-md"
+        <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded btn-danger cursor-pointer ml-auto shadow-md"
                 @click="$parent.$parent.deleteFiles([$parent.$parent.item.id])">
           {{ __('Delete') }}
         </button>

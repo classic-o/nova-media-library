@@ -1,10 +1,10 @@
 <template>
-  <div class="popup fixed pin z-40 py-view bg-primary-70% overflow-y-auto">
-    <div class="absolute pin z-20" @click="$parent.popup = null"></div>
+  <div class="popup fixed top-0 left-0 right-0 pin z-40 py-view bg-primary-70% overflow-y-auto">
+    <div class="absolute pin z-20" @click="$parent.$parent.popup = null"></div>
 
     <div class="relative z-30 bg-white p-8 rounded-lg shadow-lg m-auto">
 
-      <button type="button" class="nml-close select-none" @click="$parent.popup = null">&times;</button>
+      <button type="button" class="nml-close select-none" @click="$parent.$parent.popup = null">&times;</button>
 
       <Library :field="field.attribute" :isArray="field.nmlArray" :types="types" />
 

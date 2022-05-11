@@ -2,7 +2,7 @@
   <div>
 
     <div class="card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs"
-         v-if="!item && isForm"
+         v-if="!item"
          @click="popup = true">
       {{ __('Select File') }}
     </div>

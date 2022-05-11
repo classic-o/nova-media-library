@@ -1,6 +1,6 @@
 <template>
   <DefaultField @click="display()" :field="field" :errors="errors" :show-help-text="showHelpText" :fullWidthContent="true">
-    <template  v-slot:field>
+    <template v-slot:field>
       <div class="nml-field-form">
 
         <span class="cursor-pointer dim inline-block text-primary font-bold pt-2 leading-tight"

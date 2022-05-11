@@ -12,7 +12,7 @@ export default {
 
     return {
       popup: false,
-      isForm: this.$parent.$parent.isFormField === true,
+      isForm: this.$parent.$parent.$parent.isFormField === true,
       array: [],
       type
     }

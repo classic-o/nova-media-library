@@ -7,20 +7,20 @@
       @input="changeBulk"
     >{{ __('Bulk Select') }}</checkbox-with-label>
 
-    <button class="btn-default bg-primary text-black cursor-pointer shadow-md max-w-full mr-4"
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-primary cursor-pointer shadow-md max-w-full mr-4"
             type="button"
             @click="bulkAll"
             v-if="$parent.bulk.enable"
     >{{ __('Select All') }}</button>
 
     <template v-if="$parent.bulkLen()">
-      <button class="btn-default bg-danger text-black cursor-pointer shadow-md max-w-full mr-4"
+      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded bg-danger cursor-pointer shadow-md max-w-full mr-4"
               type="button"
               @click="$parent.deleteFiles(Object.keys($parent.bulk.ids))">
         {{ __('Delete') }} ({{ $parent.bulkLen() }})
       </button>
 
-      <button class="btn-default bg-success text-black cursor-pointer shadow-md max-w-full mr-4"
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-success cursor-pointer shadow-md max-w-full mr-4"
               v-if="$parent.field && $parent.bulk.enable && $parent.bulkLen()"
               type="button"
               @click="pushFiles">
@@ -28,7 +28,7 @@
       </button>
     </template>
 
-    <label class="btn-default bg-90 text-black text-center cursor-pointer shadow-md max-w-full ml-auto">
+    <label class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-90 text-center cursor-pointer shadow-md max-w-full ml-auto">
       <input
         id="nml_upload"
         class="form-file-input"

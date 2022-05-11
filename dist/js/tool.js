@@ -1396,21 +1396,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
-var _hoisted_1 = ["textContent"];
-var _hoisted_2 = ["href"];
-var _hoisted_3 = ["onClick"];
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_5 = {
+var _hoisted_1 = {
+  "class": "w-32"
+};
+var _hoisted_2 = ["textContent"];
+var _hoisted_3 = ["src"];
+var _hoisted_4 = {
   key: 2,
   "class": "mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_icon_delete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("icon-delete");
-
   var _component_draggable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("draggable");
 
   var _component_Library = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Library");
@@ -1418,78 +1413,55 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_ctx.array && _ctx.array.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_draggable, {
     key: 0,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)('flex flex-wrap nml-display-' + _ctx.type),
+    "item-key": "id",
     modelValue: _ctx.array,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.array = $event;
     }),
     onEnd: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.changeArray(_ctx.array);
-    }),
-    disabled: !_ctx.isForm
+    })
   }, {
-    item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_4];
-    }),
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.array, function (item, i) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-          "class": "nml-item relative mb-2 cursor-pointer",
-          key: 'nml' + i
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)('icon rounded-lg shadow-md nml-icon-' + _ctx.mime(item)),
-          style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.bg(item))
-        }, null, 6
-        /* CLASS, STYLE */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-          "class": "title truncate",
-          textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title || item.name)
-        }, null, 8
-        /* PROPS */
-        , _hoisted_1), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-          href: item.url,
-          target: "_blank",
-          "class": "absolute pin"
-        }, null, 8
-        /* PROPS */
-        , _hoisted_2), _ctx.isForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
-          key: 0,
-          "class": "delete shadow-md dim",
-          onClick: function onClick($event) {
-            return _ctx.remove(i);
-          }
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_icon_delete)], 8
-        /* PROPS */
-        , _hoisted_3)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))];
+    item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+      var element = _ref.element;
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "title truncate text-center",
+        textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(element.title || element.name)
+      }, null, 8
+      /* PROPS */
+      , _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+        "class": "w-32 h-40",
+        src: element.url
+      }, null, 8
+      /* PROPS */
+      , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isForm\" @click=\"remove(i)\">Remove</button> ")])];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["class", "modelValue", "disabled"])) : _ctx.isForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  , ["class", "modelValue"])) : _ctx.isForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 1,
     "class": "card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs",
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return _ctx.popup = true;
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Select Files')), 1
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__("Select Files")), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isForm && _ctx.array && _ctx.array.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isForm && _ctx.array && _ctx.array.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "cursor-pointer dim inline-block text-primary font-bold",
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return _ctx.popup = true;
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Media Library')), 1
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__("Media Library")), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "cursor-pointer dim inline-block text-danger font-bold ml-8",
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return _ctx.changeArray([]);
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Clear')), 1
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__("Clear")), 1
   /* TEXT */
   )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade",
@@ -1585,7 +1557,7 @@ var _hoisted_6 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Library = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Library");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [!_ctx.item && _ctx.isForm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [!_ctx.item ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs",
     onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -1671,7 +1643,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 var _hoisted_1 = {
-  "class": "popup fixed pin z-40 py-view bg-primary-70% overflow-y-auto"
+  "class": "popup fixed top-0 left-0 right-0 pin z-40 py-view bg-primary-70% overflow-y-auto"
 };
 var _hoisted_2 = {
   "class": "relative z-30 bg-white p-8 rounded-lg shadow-lg m-auto"
@@ -1682,13 +1654,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "absolute pin z-20",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.$parent.popup = null;
+      return _ctx.$parent.$parent.popup = null;
     })
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "nml-close select-none",
     onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.$parent.popup = null;
+      return _ctx.$parent.$parent.popup = null;
     })
   }, "×"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Library, {
     field: $props.field.attribute,
@@ -1763,7 +1735,7 @@ var _hoisted_1 = {
   "class": "flex flex-wrap mb-4 select-none"
 };
 var _hoisted_2 = {
-  "class": "btn-default bg-90 text-black text-center cursor-pointer shadow-md max-w-full ml-auto"
+  "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-90 text-center cursor-pointer shadow-md max-w-full ml-auto"
 };
 var _hoisted_3 = ["accept"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1786,7 +1758,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["onInput"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$parent.bulk.enable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
-    "class": "btn-default bg-primary text-black cursor-pointer shadow-md max-w-full mr-4",
+    "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-primary cursor-pointer shadow-md max-w-full mr-4",
     type: "button",
     onClick: _cache[0] || (_cache[0] = function () {
       return _ctx.bulkAll && _ctx.bulkAll.apply(_ctx, arguments);
@@ -1796,7 +1768,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$parent.bulkLen() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn-default bg-danger text-black cursor-pointer shadow-md max-w-full mr-4",
+    "class": "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded bg-danger cursor-pointer shadow-md max-w-full mr-4",
     type: "button",
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.$parent.deleteFiles(Object.keys(_ctx.$parent.bulk.ids));
@@ -1805,7 +1777,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), _ctx.$parent.field && _ctx.$parent.bulk.enable && _ctx.$parent.bulkLen() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    "class": "btn-default bg-success text-black cursor-pointer shadow-md max-w-full mr-4",
+    "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded bg-success cursor-pointer shadow-md max-w-full mr-4",
     type: "button",
     onClick: _cache[2] || (_cache[2] = function () {
       return _ctx.pushFiles && _ctx.pushFiles.apply(_ctx, arguments);
@@ -2395,7 +2367,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )])), [[_directive_clipboard, _ctx.$parent.$parent.item.url, "copy"], [_directive_clipboard, _ctx.onCopy, "success"]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": "btn-default btn-primary cursor-pointer mr-6 shadow-md",
+    "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded btn-primary cursor-pointer mr-6 shadow-md",
     onClick: _cache[4] || (_cache[4] = function () {
       return _ctx.update && _ctx.update.apply(_ctx, arguments);
     })
@@ -2404,7 +2376,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), _ctx.$parent.$parent.config.front_crop && 'image' === _ctx.$parent.$parent.item.options.mime ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
-    "class": "btn-default bg-success text-black cursor-pointer mr-6 shadow-md",
+    "class": "bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded bg-success text-black cursor-pointer mr-6 shadow-md",
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return _ctx.$parent.$parent.popup = 'crop';
     })
@@ -2412,7 +2384,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": "btn-default btn-danger cursor-pointer ml-auto shadow-md",
+    "class": "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded btn-danger cursor-pointer ml-auto shadow-md",
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return _ctx.$parent.$parent.deleteFiles([_ctx.$parent.$parent.item.id]);
     })
@@ -2776,7 +2748,7 @@ __webpack_require__.r(__webpack_exports__);
     if ('auto' === type) type = 'list' === localStorage.getItem('nml-display') ? 'list' : 'gallery';
     return {
       popup: false,
-      isForm: this.$parent.$parent.isFormField === true,
+      isForm: this.$parent.$parent.$parent.isFormField === true,
       array: [],
       type: type
     };
@@ -2885,7 +2857,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       popup: false,
-      isForm: this.$parent.$parent.isFormField === true,
+      isForm: this.$parent.$parent.$parent.isFormField === true,
       item: this.field.value
     };
   },
