@@ -24,7 +24,7 @@ export default {
       this.changeFile(array[0]);
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }
 }

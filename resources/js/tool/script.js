@@ -128,7 +128,7 @@ export default {
     if ( !this.field && wheel ) document.addEventListener(wheel, this.scroller);
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if ( !this.field && wheel ) document.removeEventListener(wheel, this.scroller);
   }
 }

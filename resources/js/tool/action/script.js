@@ -1,9 +1,11 @@
-import Toasted from 'vue-toasted';
-
+import Toasted from 'toastedjs'
+let toasted = new Toasted({
+  theme: 'nova',
+  position: 'bottom-right',
+  duration: 6000,
+})
 export default {
-  components: {
-    Toasted
-  },
+ 
   emits: ['changebulk'],
   
   data() {
@@ -39,9 +41,9 @@ export default {
 
       Nova.request().post('/nova-vendor/nova-media-library/upload', data, config).then(r => {
         this.upload.done++;
-        //this.$toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
+        toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
         this.uploadFile(i+1);
-        // if ( r.data.message ) this.$toasted.show(r.data.message, { type: 'success' });
+        if ( r.data.message ) toasted.show(r.data.message, { type: 'success' });
       }).catch(e => {
         this.uploadFile(i+1);
         window.nmlToastHook(e);
@@ -49,7 +51,7 @@ export default {
     },
     uploadCheck() {
       this.$parent.loading = false;
-      //this.$toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
+      toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
       this.$parent.clearData();
       this.$parent.get();
     },

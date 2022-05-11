@@ -1,3 +1,10 @@
+import Cropper from 'cropperjs';
+import Toasted from 'toastedjs'
+let toasted = new Toasted({
+  theme: 'nova',
+  position: 'bottom-right',
+  duration: 6000,
+})
 export default {
   props: {
     type: { type: String, default: 'folder' },
@@ -39,7 +46,7 @@ export default {
             //this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
             this.$parent.$parent.config['folders'] = r.data.folders;
           if ( r.data.message )
-            this.$toasted.show(r.data.message, { type: 'success' });
+            toasted.show(r.data.message, { type: 'success' });
           this.action('back');
         }).catch(e => {
           window.nmlToastHook(e);
@@ -56,7 +63,7 @@ export default {
             //this.$set(this.$parent.$parent.config, 'folders', r.data.folders);
             this.$parent.$parent.config['folders'] = r.data.folders;
           if ( r.data.message )
-            this.$toasted.show(r.data.message, { type: 'success' });
+            toasted.show(r.data.message, { type: 'success' });
         }).catch(e => {
           window.nmlToastHook(e);
         });

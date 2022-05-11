@@ -20,10 +20,10 @@
         <svg v-if="isForm" class="delete shadow-md dim" @click="remove(i)"><icon-delete/></svg>
 
       </div>
-      <template #item>
+      <template v-slot:item>
         <div></div>
       </template>
-    </draggable> -->
+    </draggable>
 
     <div class="card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs"
          v-else-if="isForm"

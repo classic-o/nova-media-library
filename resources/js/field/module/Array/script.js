@@ -38,7 +38,7 @@ export default {
       if ( Array.isArray(this.field.value) ) this.array = this.field.value;
     } catch (e) {}
   },
-  beforeDestroy() {
+  beforeUnmount() {
     Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }
 }

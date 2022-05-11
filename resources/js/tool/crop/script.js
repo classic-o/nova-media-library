@@ -1,4 +1,10 @@
 import Cropper from 'cropperjs';
+import Toasted from 'toastedjs';
+let toasted = new Toasted({
+  theme: 'nova',
+  position: 'bottom-right',
+  duration: 6000,
+})
 
 export default {
   data() {
@@ -14,15 +20,15 @@ export default {
     },
     save(over) {
       this.info.over = over;
-      this.info.id = this.$parent.item.id;
-      this.$parent.loading = true;
+      this.info.id = this.$parent.$parent.item.id;
+      this.$parent.$parent.loading = true;
       Nova.request().post('/nova-vendor/nova-media-library/crop', this.info).then(() => {
-        this.$toasted.show(this.__('Image cropped successfully'), { type: 'success' });
-        this.$parent.clearData();
-        this.$parent.get();
-        this.$parent.item = null;
+        toasted.show(this.__('Image cropped successfully'), { type: 'success' });
+        this.$parent.$parent.clearData();
+        this.$parent.$parent.get();
+        this.$parent.$parent.item = null;
       }).catch(e => {
-        this.$parent.loading = false;
+        this.$parent.$parent.loading = false;
         window.nmlToastHook(e);
       });
     }
