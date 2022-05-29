@@ -26,6 +26,7 @@ export default {
   },
 
   data() {
+    
     let config = window.Nova.config('novaMediaLibrary');
     config.display = 'list' === localStorage.getItem('nml-display') ? 'list' : 'gallery';
     return {
@@ -126,9 +127,25 @@ export default {
     this.get();
 
     if ( !this.field && wheel ) document.addEventListener(wheel, this.scroller);
+
+    // console.log(this.config.folders);
   },
 
   beforeUnmount() {
     if ( !this.field && wheel ) document.removeEventListener(wheel, this.scroller);
+  },
+
+  
+
+  mounted() {
+    if ("object" === typeof window.Nova.config('novaMediaLibrary')) {
+      if (window.Nova.config('novaMediaLibrary').store === "folders") {
+        Nova.request()
+          .get("/nova-vendor/nova-media-library/folders")
+          .then((r) => {
+            this.config.folders = r.data;
+          });
+      }
+  }
   }
 }

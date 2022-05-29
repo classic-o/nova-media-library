@@ -74,4 +74,5 @@ export default {
     this.title.folder = this.label;
     this.className = 'folder' === this.type ? '' : '-'+this.type;
   }
+  
 }

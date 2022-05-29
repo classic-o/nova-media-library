@@ -18,20 +18,15 @@ Nova.booting((Vue) => {
     if (422 === e.response.status && e.response.data.message)
       Vue.prototype.toasted.show(e.response.data.message, { type: "error" });
   };
+
+  
 });
 
-if ("object" === typeof Nova.config.novaMediaLibrary) {
-  if (Nova.config.novaMediaLibrary.store === "folders") {
-    Nova.request()
-      .get("/nova-vendor/nova-media-library/folders")
-      .then((r) => {
-        Object.assign(Nova.config.novaMediaLibrary, { folders: r.data });
-      });
-  }
-  if ("object" === typeof Nova.config.novaMediaLibrary.lang) {
-    Object.assign(Nova.config.translations, Nova.config.novaMediaLibrary.lang);
-  }
-}
+// if ("object" === typeof window.Nova.config('novaMediaLibrary')) {
+//   if ("object" === typeof window.Nova.config('novaMediaLibrary').lang) {
+//     Object.assign(Nova.config.translations, window.Nova.config('novaMediaLibrary').lang);
+//   }
+// }
 
-//alert(window.Nova.config.novaMediaLibrary);
+//alert(window.window.Nova.config('novaMediaLibrary'));
 //document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');

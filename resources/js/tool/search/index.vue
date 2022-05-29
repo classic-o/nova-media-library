@@ -2,7 +2,7 @@
   <div class="flex flex-wrap mb-6 select-none">
 
     <div class="relative mr-4 max-w-full">
-      <icon type="search" class="absolute search-icon-center ml-3 text-70" />
+      <icon type="search" class="absolute right-0 search-icon-center mr-3 mt-1.5 text-70" />
       <input
         class="form-control form-input w-search pl-search shadow-md w-full"
         type="search"
@@ -13,7 +13,7 @@
     </div>
 
     <datepicker
-      class="form-control shadow-md max-w-full mr-4"
+      class="form-control shadow-md max-w-full mr-4 text-center"
       :placeholder="uploadFromText"
       ref="uploadFrom"
       v-model="uploadFrom"
@@ -23,7 +23,7 @@
     />
 
     <datepicker
-      class="form-control shadow-md max-w-full"
+      class="form-control shadow-md max-w-full text-center"
       :placeholder="uploadToText"
       ref="uploadTo"
       v-model="uploadTo"
