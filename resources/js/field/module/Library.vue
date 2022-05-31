@@ -1,5 +1,5 @@
 <template>
-  <div class="popup fixed top-0 left-0 right-0 pin z-40 py-view bg-primary-70% overflow-y-auto">
+  <div class="popup absolute top-0 left-0 right-0 pin z-40 py-view bg-primary-70% overflow-y-auto">
     <div class="absolute pin z-20" @click="$parent.$parent.popup = null"></div>
 
     <div class="relative z-30 bg-white p-8 rounded-lg shadow-lg m-auto">
@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted() {
-    document.body.classList.add('overflow-hidden');
+    //document.body.classList.add('overflow-hidden');
   },
   beforeUnmount() {
     document.body.classList.remove('overflow-hidden');

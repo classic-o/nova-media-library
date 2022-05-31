@@ -138,6 +138,7 @@ export default {
   
 
   mounted() {
+    document.body.classList.remove("overflow-y-hidden");
     if ("object" === typeof window.Nova.config('novaMediaLibrary')) {
       if (window.Nova.config('novaMediaLibrary').store === "folders") {
         Nova.request()
