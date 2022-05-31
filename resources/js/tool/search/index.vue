@@ -2,9 +2,9 @@
   <div class="flex flex-wrap mb-6 select-none">
 
     <div class="relative mr-4 max-w-full">
-      <icon type="search" class="absolute right-0 search-icon-center mr-3 mt-1.5 text-70" />
+      <icon type="search" class="absolute left-0 search-icon-center mr-3 mt-1.5 text-70 ml-2" />
       <input
-        class="form-control form-input w-search pl-search shadow-md w-full"
+        class="form-control form-input w-search pl-search shadow-md w-full pl-10"
         type="search"
         :placeholder="__('Search by name')"
         v-model="$parent.filter.title"

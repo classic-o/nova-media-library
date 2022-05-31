@@ -23,6 +23,7 @@ class Helper {
 			if ( $path ) data_set($array, $path, 0);
 		}
 
+
 		return $array;
 	}
 

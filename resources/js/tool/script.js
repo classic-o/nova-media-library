@@ -101,6 +101,7 @@ export default {
       timeout = setTimeout(() => {
         this.clearData();
         this.get();
+        this.getFolders(this.filter.title);
       }, 1000);
     },
     loader() {
@@ -118,6 +119,16 @@ export default {
     changeBulk() {
       this.bulk.ids = {};
       this.bulk.enable = !this.bulk.enable;
+    },
+
+    getFolders(query) {
+      return Nova.request()
+      .get("/nova-vendor/nova-media-library/folders", {
+        params: {searchQuery: query}
+      })
+      .then((r) => {
+        this.config.folders = r.data;
+      });
     }
   },
   created() {
