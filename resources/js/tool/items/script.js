@@ -5,6 +5,12 @@ import Folders from '../folders'
 export default {
   mixins: [Mixin],
   components: { Folders },
+  data() {
+    return {
+      checked: 'border border-red-300 rounded-md',
+      
+    }
+  },
   computed: {
     folders() {
       return this.$parent.config.folders;

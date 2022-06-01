@@ -18,7 +18,7 @@
         v-for="item in $parent.items.array"
         :key="item.id"
         @click="clickItem(item)"
-        :class="['nml-item relative mb-2 cursor-pointer', { checked: $parent.bulk.enable && $parent.bulk.ids[item.id] }]"
+        :class="['nml-item relative mb-2 cursor-pointer', ($parent.bulk.enable && $parent.bulk.ids[item.id]) ? checked:'' ]"
         :title="item.title || item.name"
       >
         <div
