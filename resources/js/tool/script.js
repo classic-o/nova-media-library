@@ -75,6 +75,7 @@ export default {
             array: this.items.array.concat(r.data.array),
             total: r.data.total,
           };
+          this.items.array = this.sortFiles(this.items.array);
         })
         .catch((e) => {
           this.loading = false;
@@ -135,11 +136,11 @@ export default {
           params: { searchQuery: query },
         })
         .then((r) => {
-          this.config.folders = this.sortObject(r.data);
+          this.config.folders = this.sortFolders(r.data);
         });
     },
 
-    sortObject(obj) {
+    sortFolders(obj) {
       return Object.keys(obj)
         .sort()
         .reduce(function (result, key) {
@@ -147,6 +148,11 @@ export default {
           return result;
         }, {});
     },
+
+    sortFiles(files) {
+      return files.sort((a, b) => { return a.name > b.name ? 1 : -1; });
+    }
+
   },
   created() {
     if ("onwheel" in document) wheel = "wheel";
@@ -171,7 +177,7 @@ export default {
         Nova.request()
           .get("/nova-vendor/nova-media-library/folders")
           .then((r) => {
-            this.config.folders = this.sortObject(r.data);
+            this.config.folders = this.sortFolders(r.data);
           });
       }
     }
