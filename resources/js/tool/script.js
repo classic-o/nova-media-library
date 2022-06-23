@@ -75,7 +75,7 @@ export default {
             array: this.items.array.concat(r.data.array),
             total: r.data.total,
           };
-          this.items.array = this.sortFiles(this.items.array);
+          //this.items.array = this.sortFiles(this.items.array);
         })
         .catch((e) => {
           this.loading = false;
@@ -149,9 +149,9 @@ export default {
         }, {});
     },
 
-    sortFiles(files) {
-      return files.sort((a, b) => { return a.name > b.name ? 1 : -1; });
-    }
+    // sortFiles(files) {
+    //   return files.sort((a, b) => { return a.name > b.name ? 1 : -1; });
+    // }
 
   },
   created() {
