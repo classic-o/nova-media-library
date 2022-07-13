@@ -133,7 +133,7 @@ export default {
     getFolders(query) {
       return Nova.request()
         .get("/nova-vendor/nova-media-library/folders", {
-          params: { searchQuery: query },
+          params: { searchQuery: query},
         })
         .then((r) => {
           this.config.folders = this.sortFolders(r.data);
@@ -152,8 +152,9 @@ export default {
     // sortFiles(files) {
     //   return files.sort((a, b) => { return a.name > b.name ? 1 : -1; });
     // }
-
   },
+
+
   created() {
     if ("onwheel" in document) wheel = "wheel";
     if ("onmousewheel" in document) wheel = "mousewheel";

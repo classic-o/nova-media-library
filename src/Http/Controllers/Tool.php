@@ -196,7 +196,7 @@ class Tool
 			$fetchedFolders = Helper::directories();
 			$filteredFolders = array_filter(
 				$fetchedFolders,
-				fn ($folder) => str_contains($folder, $query),
+				fn ($folder) => str_contains(strtolower($folder), strtolower($query)),
 				ARRAY_FILTER_USE_KEY
 			);
 			return $filteredFolders;

@@ -24,6 +24,7 @@ export default {
   methods: {
     action(type) {
       let parent = this.$parent.$parent;
+      parent.filter.title = '';
 
       if ( 'folder' === type ) {
         //this.$set(parent.filter, 'folder', parent.filter.folder + this.label + '/');
