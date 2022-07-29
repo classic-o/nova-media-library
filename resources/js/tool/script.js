@@ -57,6 +57,18 @@ export default {
     };
   },
 
+  watch: {
+    filter: {
+      handler(newValue) {
+        let filterPayload = {...newValue};
+        filterPayload.title = '';
+        localStorage.setItem("NovaMediaLibraryFilter", JSON.stringify(filterPayload));
+      },
+      deep: true
+    }
+  },
+
+
   methods: {
     bulkLen() {
       return Object.keys(this.bulk.ids).length;
@@ -133,7 +145,7 @@ export default {
     getFolders(query) {
       return Nova.request()
         .get("/nova-vendor/nova-media-library/folders", {
-          params: { searchQuery: query},
+          params: { searchQuery: query },
         })
         .then((r) => {
           this.config.folders = this.sortFolders(r.data);
@@ -154,13 +166,14 @@ export default {
     // }
   },
 
-
   created() {
     if ("onwheel" in document) wheel = "wheel";
     if ("onmousewheel" in document) wheel = "mousewheel";
-    this.oldFilter = { ...this.filter };
+    if (JSON.parse(localStorage.getItem("NovaMediaLibraryFilter"))) {
+      this.filter = JSON.parse(localStorage.getItem("NovaMediaLibraryFilter"));
+    }
     this.get();
-
+    this.oldFilter = { ...this.filter };
     if (!this.field && wheel) document.addEventListener(wheel, this.scroller);
 
     // console.log(this.config.folders);
