@@ -8,24 +8,24 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class DeleteFr extends FormRequest
 {
-	protected function failedValidation(Validator $validator) {
-		throw new HttpResponseException(response()->json([
-			'message' => $validator->errors()->first()
-		], 422));
-	}
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => $validator->errors()->first(),
+        ], 422));
+    }
 
-	public function rules()
-	{
-		return [
-			'ids' => 'required|array'
-		];
-	}
+    public function rules()
+    {
+        return [
+            'ids' => 'required|array',
+        ];
+    }
 
-	public function messages()
-	{
-		return [
-			'ids.*' => __('Invalid field of items ids')
-		];
-	}
-
+    public function messages()
+    {
+        return [
+            'ids.*' => __('Invalid field of items ids'),
+        ];
+    }
 }

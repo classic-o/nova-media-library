@@ -1,25 +1,24 @@
-import { VueClipboard } from '@soerenmartius/vue3-clipboard';
-import Toasted from 'toastedjs'
+import { VueClipboard } from "@soerenmartius/vue3-clipboard";
+import Toasted from "toastedjs";
 let toasted = new Toasted({
-  theme: 'nova',
-  position: 'bottom-right',
+  theme: "nova",
+  position: "bottom-right",
   duration: 6000,
-})
+});
 Nova.booting((Vue) => {
   Vue.use(VueClipboard);
   Vue.component("index-media-library-field", require("./field/Index/").default);
-  Vue.component("detail-media-library-field", require("./field/Detail/").default);
+  Vue.component(
+    "detail-media-library-field",
+    require("./field/Detail/").default
+  );
   Vue.component("form-media-library-field", require("./field/Form/").default);
   Nova.inertia("NovaMediaLibrary", require("./tool/").default);
-  
-  
 
   window.nmlToastHook = (e) => {
     if (422 === e.response.status && e.response.data.message)
-      Vue.prototype.toasted.show(e.response.data.message, { type: "error" });
+      toasted.show(e.response.data.message, { type: "error" });
   };
-
-  
 });
 
 // if ("object" === typeof window.Nova.config('novaMediaLibrary')) {

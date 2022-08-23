@@ -8,24 +8,24 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FolderDelFr extends FormRequest
 {
-	protected function failedValidation(Validator $validator) {
-		throw new HttpResponseException(response()->json([
-			'message' => $validator->errors()->first()
-		], 422));
-	}
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => $validator->errors()->first(),
+        ], 422));
+    }
 
-	public function rules()
-	{
-		return [
-			'folder' => 'required|string|regex:/^[a-zA-Z0-9_\-\/]+$/'
-		];
-	}
+    public function rules()
+    {
+        return [
+            'folder' => 'required|string|regex:/^[a-zA-Z0-9_\-\/]+$/',
+        ];
+    }
 
-	public function messages()
-	{
-		return [
-			'folder.*' => __('Invalid path')
-		];
-	}
-
+    public function messages()
+    {
+        return [
+            'folder.*' => __('Invalid path'),
+        ];
+    }
 }
