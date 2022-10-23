@@ -88,7 +88,13 @@ class Tool
                 abort(200, __('Unsupported image type for resizing, only the original is uploaded') . $file_name);
             }
 
-            return;
+            $preview = config('nova-media-library.resize.preview');
+            if (! $item->url) {
+                $item = $item->toArray();
+                $item['url'] = route('nml-private-file-admin', ['id' => $item['id']]);
+            }
+            $item['preview'] = Helper::preview($item, $preview);
+            return $item;
         }
 
         abort(422, __('The file was not downloaded for unknown reasons') . $file_name);
