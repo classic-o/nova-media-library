@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border-b border-40">
+  <div class="flex border-b border-40 w-full items-center">
 
     <slot>
       <div class="w-1/4 py-4 font-normal text-80">
