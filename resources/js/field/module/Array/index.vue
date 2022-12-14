@@ -1,7 +1,7 @@
 <template>
   <div>
     <draggable
-      :class="'flex flex-wrap nml-display-' + type"
+      :class="'flex flex-wrap space-x-3 nml-display-' + type"
       v-if="array && array.length"
       item-key="id"
       v-model="array"
@@ -9,7 +9,7 @@
       
     >
       <template #item="{ element }">
-        <div class="w-32">
+        <div class="relative w-32">
           <div class="title truncate text-center" v-text="element.title || element.name" />
           <img class="w-32 h-40" :src="element.url" />
           <!-- <button v-if="isForm" @click="remove(i)">Remove</button> -->
