@@ -41,4 +41,10 @@ export default {
     beforeUnmount() {
         Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
     },
+
+    watch: {
+        'field.value'(newValue) {
+            this.array = newValue;
+        },
+    },
 };

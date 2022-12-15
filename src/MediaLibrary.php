@@ -3,11 +3,17 @@
 namespace ClassicO\NovaMediaLibrary;
 
 use Laravel\Nova\Fields\Field;
+use ClassicO\NovaMediaLibrary\Core\Model;
 use ClassicO\NovaMediaLibrary\Core\Helper;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\SupportsDependentFields;
+use ClassicO\NovaMediaLibrary\Traits\CanResolveMedia;
 
 class MediaLibrary extends Field
 {
+    use SupportsDependentFields;
+    use CanResolveMedia;
+    
     public $component = 'media-library-field';
     private $preview = null;
 
