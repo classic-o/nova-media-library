@@ -20,8 +20,8 @@ trait CanResolveMedia
             }
             return $this->setPrivateUrlOnAttachment($model);
         })->filter()->all();
-
-        if (array_key_exists('nmlArray', $this->meta) || $isArray) {
+        
+        if (array_key_exists('nmlArray', $this->meta ?? []) || $isArray) {
             return $resolvedMedia;
         }
         return $resolvedMedia[0];
