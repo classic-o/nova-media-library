@@ -1,10 +1,21 @@
+import Toasted from 'toastedjs'
+let toasted = new Toasted({
+  theme: 'nova',
+  position: 'bottom-right',
+  duration: 6000,
+})
 export default {
+ 
+  emits: ['changebulk'],
+  
   data() {
     return {
       files: [],
-      upload: {}
+      upload: {},
+      
     }
   },
+  
   methods: {
     clearUpload(length = 0) {
       this.upload = { total: length, done: 0 }
@@ -30,9 +41,9 @@ export default {
 
       Nova.request().post('/nova-vendor/nova-media-library/upload', data, config).then(r => {
         this.upload.done++;
-        this.$toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
+        toasted.show(this.upload.done +' / '+ this.upload.total, { type: 'info', duration: 500 });
         this.uploadFile(i+1);
-        if ( r.data.message ) this.$toasted.show(r.data.message, { type: 'success' });
+        if ( r.data.message ) toasted.show(r.data.message, { type: 'success' });
       }).catch(e => {
         this.uploadFile(i+1);
         window.nmlToastHook(e);
@@ -40,22 +51,27 @@ export default {
     },
     uploadCheck() {
       this.$parent.loading = false;
-      this.$toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
+      toasted.show(this.__('Uploaded') +': '+ this.upload.done +'/'+ this.upload.total, { type: 'success' });
       this.$parent.clearData();
       this.$parent.get();
     },
 
     changeBulk() {
-      this.$set(this.$parent.bulk, 'ids', {});
+      //this.$emit('changebulk');
+      this.$parent.bulk['ids'] = {};
       this.$parent.bulk.enable = !this.$parent.bulk.enable;
+      
+      
     },
 
     bulkAll() {
       if ( this.$parent.bulkLen() === this.$parent.items.array.length ) {
-        this.$set(this.$parent.bulk, 'ids', {});
+        //this.$set(this.$parent.bulk, 'ids', {});
+        this.$parent.bulk['ids'] = {};
       } else {
         this.$parent.items.array.forEach(item => {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          //this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids[item.id] = item;
         });
       }
     },

@@ -1,9 +1,16 @@
 import Mixin from '../../_mixin'
 import Folders from '../folders'
 
+
 export default {
   mixins: [Mixin],
   components: { Folders },
+  data() {
+    return {
+      checked: 'border border-red-300 rounded-md',
+      
+    }
+  },
   computed: {
     folders() {
       return this.$parent.config.folders;
@@ -24,9 +31,12 @@ export default {
     clickItem(item) {
       if ( this.$parent.bulk.enable ) {
         if ( this.$parent.bulk.ids[item.id] ) {
-          this.$delete(this.$parent.bulk.ids, item.id);
+          //this.$delete(this.$parent.bulk.ids, item.id);
+          delete this.$parent.bulk.ids[item.id];
+
         } else {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          //this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids[item.id] = item;
         }
       } else {
         if ( this.$parent.field ) {
@@ -36,6 +46,9 @@ export default {
           this.$parent.popup = 'info';
         }
       }
-    }
+    },
+    // test() {
+    //   console.log('Hello');
+    // }
   }
 }

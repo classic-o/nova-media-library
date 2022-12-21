@@ -2,9 +2,9 @@
   <div class="flex flex-wrap mb-6 select-none">
 
     <div class="relative mr-4 max-w-full">
-      <icon type="search" class="absolute search-icon-center ml-3 text-70" />
+      <icon type="search" class="absolute left-0 search-icon-center mr-3 mt-1.5 text-70 ml-2" />
       <input
-        class="form-control form-input w-search pl-search shadow-md w-full"
+        class="form-control form-input w-search pl-search shadow-md w-full pl-10"
         type="search"
         :placeholder="__('Search by name')"
         v-model="$parent.filter.title"
@@ -12,24 +12,24 @@
       />
     </div>
 
-    <date-time-picker
-      class="form-control form-input shadow-md max-w-full mr-4"
-      autocomplete="off"
-      :placeholder="__('Upload From')"
-      dateFormat="Y-m-d"
-      :firstDayOfWeek="1"
-      :enable-time="false"
-      @change="val => updateDate(val, 'from')"
+    <datepicker
+      class="form-control shadow-md max-w-full mr-4 text-center"
+      :placeholder="uploadFromText"
+      ref="uploadFrom"
+      v-model="uploadFrom"
+      inputFormat= "yyyy-MM-dd"
+      :weekStartsOn= "1"
+      @change="updateDate(this.$refs.uploadFrom.input, 'from')"
     />
 
-    <date-time-picker
-      class="form-control form-input shadow-md max-w-full"
-      autocomplete="off"
-      :placeholder="__('Upload To')"
-      dateFormat="Y-m-d"
-      :firstDayOfWeek="1"
-      :enable-time="false"
-      @change="val => updateDate(val, 'to')"
+    <datepicker
+      class="form-control shadow-md max-w-full text-center"
+      :placeholder="uploadToText"
+      ref="uploadTo"
+      v-model="uploadTo"
+      inputFormat= "yyyy-MM-dd"
+      :weekStartsOn= "1"
+      @change="updateDate(this.$refs.uploadTo.input, 'to')"
     />
 
     <div :title="__('Change Display Type')" class="nml-display bg-white shadow-md rounded-lg cursor-pointer ml-auto mr-4 active:shadow-outline">

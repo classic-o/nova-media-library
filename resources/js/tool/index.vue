@@ -3,7 +3,7 @@
 
     <heading class="mb-6">{{ __('Media Library') }}</heading>
 
-    <Action />
+    <Action @changebulk="changeBulk" />
 
     <Search />
 
@@ -12,7 +12,7 @@
     <Loader />
 
     <transition name="fade" mode="out-in">
-      <Popup v-if="item && 'info' === popup" />
+      <Popup v-if="this.item && 'info' === this.popup" />
     </transition>
 
     <transition name="fade" mode="out-in">

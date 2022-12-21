@@ -1,10 +1,10 @@
 <template>
-  <div id="nml_cropper" class="popup fixed pin z-20 py-view bg-primary-70% overflow-y-auto">
-    <div class="absolute pin z-20" @click="$parent.popup = 'info'"></div>
+  <div id="nml_cropper" class="popup fixed top-10 left-0 right-0 pin z-20 py-view bg-primary-70% overflow-y-auto">
+    <div class="absolute pin z-20" @click="$parent.$parent.popup = 'info'"></div>
 
     <div class="relative z-30 bg-white overflow-hidden rounded-lg shadow-lg m-auto">
 
-      <div><img :src="$parent.item.url +'?'+ Date.now()" id="cropper-img" /></div>
+      <div><img :src="$parent.$parent.item.url +'?'+ Date.now()" id="cropper-img" /></div>
 
 
       <div class="flex border-b border-50 leading-loose">
@@ -36,9 +36,9 @@
           </button>
         </template>
 
-        <button type="button" class="btn-default cursor-pointer bg-success text-white ml-auto px-3 shadow-md"
+        <button type="button" class="btn-default cursor-pointer bg-success text-black ml-auto px-3 shadow-md"
                 @click="crop.clear().reset()">x1</button>
-        <button type="button" class="btn-default btn-danger cursor-pointer ml-4 shadow-md" @click="$parent.popup = 'info'">
+        <button type="button" class="btn-default btn-danger cursor-pointer ml-4 shadow-md" @click="$parent.$parent.popup = 'info'">
           {{ __('Cancel') }}
         </button>
       </div>

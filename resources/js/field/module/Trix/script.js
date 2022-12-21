@@ -36,7 +36,7 @@ export default {
       this.select(array);
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     removeEventListener('trix-attachment-add', this.clearAttach);
     Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }

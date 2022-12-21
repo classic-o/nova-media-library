@@ -2,7 +2,7 @@
   <div class="mt-6 select-none text-center">
 
     <template v-if="!$parent.loading && $parent.items.total !== $parent.items.array.length">
-      <button class="btn-default btn-primary cursor-pointer shadow-md mt-8 m-auto w-40"
+      <button class="bg-green-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded cursor-pointer shadow-md mt-8 m-auto w-20"
               type="button"
               @click="$parent.loader">
         {{ __('More') }}

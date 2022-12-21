@@ -2,7 +2,7 @@
   <div>
 
     <div class="card border border-lg border-50 max-w-xs p-8 text-center cursor-pointer max-w-xs"
-         v-if="!item && isForm"
+         v-if="!item"
          @click="popup = true">
       {{ __('Select File') }}
     </div>
@@ -37,7 +37,7 @@
     </div>
 
 
-    <transition name="fade" mode="out-in">
+    <transition name="bounce">
       <Library v-if="popup" :field="field" />
     </transition>
 
@@ -46,3 +46,23 @@
 </template>
 
 <script src="./script.js"></script>
+
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
